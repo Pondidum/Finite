@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Finite
 {
-	internal class StateMachine<T>
+	public class StateMachine<T>
 	{
 		private State<T> _currentState;
 		private readonly Dictionary<Type, State<T>> _states;
@@ -14,6 +14,11 @@ namespace Finite
 		public StateMachine()
 		{
 			_states = new Dictionary<Type, State<T>>();
+		}
+
+		public Type CurrentState
+		{
+			get { return _currentState.GetType(); }
 		}
 
 		public void BindTo(T args)
