@@ -41,3 +41,31 @@ A couple of states for your machine:
 			LinkTo<LightOff>();
 		}
 	}
+
+Configure the machine with the states:
+
+	var args = new StateArgs();
+	var machine = new Finite.StateMachine<StateArgs>();
+
+	machine.InitialiseFromThis();
+	machine.BindTo(args);
+	machine.SetStateTo<LightOff>();
+
+The key is `InitialiseFromThis()`.  This looks through the current assembly for all types which inherits from `State<StateArgs>`, and loads them into the state machine.
+
+The state machine can then be used:
+	
+	// prints LightOnFull, LightOnDim
+	foreach (var item in machine.GetAllTargetStates())
+		Console.Writeline(item);
+
+	// prints LightOnFull, LightOnDim
+	args.OnBattery = false;
+	foreach (var item in machine.GetActiveTargetStates())
+		Console.Writeline(item);
+
+	// prints LightOnDim
+	args.OnBattery = true;
+	foreach (var item in machine.GetActiveTargetStates())
+		Console.Writeline(item);
+

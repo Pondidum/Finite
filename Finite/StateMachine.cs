@@ -32,7 +32,7 @@ namespace Finite
 			InitialiseFrom(Assembly.GetExecutingAssembly());
 		}
 
-		private void InitialiseFrom(Assembly assembly)
+		public void InitialiseFrom(Assembly assembly)
 		{
 			var types = assembly.GetTypes()
 								.Where(t => t.IsAbstract == false)
