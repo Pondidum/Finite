@@ -11,6 +11,7 @@ namespace Finite
 		public Link(Type type)
 		{
 			Target = type;
+			_condition = x => true;		//no When specified, assume active
 		}
 
 		public bool IsActive(T args)
