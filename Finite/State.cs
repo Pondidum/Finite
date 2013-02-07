@@ -6,24 +6,24 @@ namespace Finite
 {
 	public abstract class State<T>
 	{
-		private readonly List<LinkOptions<T>> _links;
+		private readonly List<Link<T>> _links;
 
 		protected State()
 		{
-			_links = new List<LinkOptions<T>>();
+			_links = new List<Link<T>>();
 		}
 
-		protected LinkOptions<T> LinkTo<TTarget>() where TTarget : State<T>
+		protected ILinkConfigurationExpression<T> LinkTo<TTarget>() where TTarget : State<T>
 		{
 			var target = typeof (TTarget);
-			var options = new LinkOptions<T>(target);
+			var options = new Link<T>(target);
 
 			_links.Add(options);
 
 			return options;
 		}
 
-		public IEnumerable<LinkOptions<T>> Links
+		public IEnumerable<Link<T>> Links
 		{
 			get { return _links.AsEnumerable(); }
 		}

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.CodeDom;
+using System.Linq;
+using System.Security.Policy;
 using Finite.Tests.TestData;
 using NUnit.Framework;
 
@@ -16,6 +19,7 @@ namespace Finite.Tests
 			machine.SetStateTo<FirstState>();
 
 			Assert.AreEqual(typeof(FirstState), machine.CurrentState);
+			CollectionAssert.AreEquivalent(new Type[] {typeof (SecondState)}, machine.GetAllTargetStates());
 		}
 
 		[Test]

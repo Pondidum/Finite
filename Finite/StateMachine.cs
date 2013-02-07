@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -90,7 +91,7 @@ namespace Finite
 
 		private void SetStateTo(Type target)
 		{
-			if ( _currentState != null && GetActiveLinks().Select(l => l.Target).Contains(target) == false)
+			if (_currentState != null && GetActiveTargetStates().Contains(target) == false)
 			{
 				throw new InvalidTransitionException(_currentState.GetType(), target);
 			}
@@ -108,15 +109,14 @@ namespace Finite
 
 		}
 
-		public IEnumerable<LinkOptions<T>> GetActiveLinks()
+		public IEnumerable<Type> GetAllTargetStates()
 		{
-			return _currentState.Links.Where(l => l.IsActive(_args));
+			return _currentState.Links.Select(l => l.Target);
 		}
 
-		public IEnumerable<State<T>> GetActiveTransitions()
+		public IEnumerable<Type> GetActiveTargetStates()
 		{
-			return GetActiveLinks().Select(l => _states[l.Target]);
+			return _currentState.Links.Where(l => l.IsActive(_args)).Select(l => l.Target);
 		}
-
 	}
 }

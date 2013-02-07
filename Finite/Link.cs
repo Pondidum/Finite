@@ -2,13 +2,13 @@ using System;
 
 namespace Finite
 {
-	public class LinkOptions<T>
+	public class Link<T> : ILinkConfigurationExpression<T>
 	{
 		private Func<T, bool> _condition;
 
 		public Type Target { get; private set; }
 
-		public LinkOptions(Type type)
+		public Link(Type type)
 		{
 			Target = type;
 		}
@@ -18,9 +18,10 @@ namespace Finite
 			return _condition.Invoke(args);
 		}
 
-		public void When(Func<T, bool> condition)
+		void ILinkConfigurationExpression<T>.When(Func<T, bool> condition)
 		{
 			_condition = condition;
 		}
+
 	}
 }
