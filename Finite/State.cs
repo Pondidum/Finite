@@ -28,7 +28,7 @@ namespace Finite
 			get { return _links.AsEnumerable(); }
 		}
 
-		public virtual void OnExit(Type target)
+		public virtual void OnLeave(Type target)
 		{
 			//nothing
 		}

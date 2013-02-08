@@ -100,7 +100,7 @@ namespace Finite
 
 			if (previous != null)
 			{
-				previous.OnExit(target);
+				previous.OnLeave(target);
 			}
 
 			_currentState = _states[target];
