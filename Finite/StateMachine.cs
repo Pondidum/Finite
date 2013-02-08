@@ -10,11 +10,18 @@ namespace Finite
 	{
 		private State<T> _currentState;
 		private readonly Dictionary<Type, State<T>> _states;
+		private readonly MachineConfiguration _configuration;
 		private T _args;
 
 		public StateMachine()
 		{
 			_states = new Dictionary<Type, State<T>>();
+			_configuration = new MachineConfiguration();
+		}
+
+		public MachineConfiguration Configuration
+		{
+			get { return _configuration; }
 		}
 
 		public Type CurrentState
@@ -88,6 +95,16 @@ namespace Finite
 		{
 			SetStateTo(typeof (TTarget));
 		}
+		
+		public IEnumerable<Type> GetAllTargetStates()
+		{
+			return _currentState.Links.Select(l => l.Target);
+		}
+
+		public IEnumerable<Type> GetActiveTargetStates()
+		{
+			return _currentState.Links.Where(l => l.IsActive(_args)).Select(l => l.Target);
+		}
 
 		private void SetStateTo(Type target)
 		{
@@ -98,25 +115,33 @@ namespace Finite
 
 			var previous = _currentState;
 
+			OnLeaveState(target, previous);
+
+			_currentState = _states[target];
+			
+			OnEnterState(target, previous);
+		}
+
+		private void OnEnterState(Type target, State<T> previous)
+		{
+			var prevType = previous != null ? previous.GetType() : null;
+
+			_currentState.OnEnter(prevType);
+			_configuration.OnEnterState(prevType, target);
+		}
+
+		private void OnLeaveState(Type target, State<T> previous)
+		{
+			var prevType = previous != null ? previous.GetType() : null;
+
+			_configuration.OnLeaveState(prevType, target);
+
 			if (previous != null)
 			{
 				previous.OnLeave(target);
 			}
-
-			_currentState = _states[target];
-
-			_currentState.OnEnter(previous != null ? previous.GetType() : null);
-
 		}
 
-		public IEnumerable<Type> GetAllTargetStates()
-		{
-			return _currentState.Links.Select(l => l.Target);
-		}
-
-		public IEnumerable<Type> GetActiveTargetStates()
-		{
-			return _currentState.Links.Where(l => l.IsActive(_args)).Select(l => l.Target);
-		}
+		
 	}
 }
