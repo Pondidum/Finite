@@ -2,15 +2,15 @@
 
 namespace Finite
 {
-	public class MachineConfiguration
+	public class MachineConfiguration<T>
 	{
-		public Action<Type, Type> OnEnterState { internal get; set; }
-		public Action<Type, Type> OnLeaveState { internal get; set; }
+		public Action<T, Type, Type> OnEnterState { internal get; set; }
+		public Action<T, Type, Type> OnLeaveState { internal get; set; }
 
 		public MachineConfiguration()
 		{
-			OnEnterState = (prev, next) => { };
-			OnLeaveState = (prev, next) => { };
+			OnEnterState = (args, prev, next) => { };
+			OnLeaveState = (args, prev, next) => { };
 		}
 	}
 }

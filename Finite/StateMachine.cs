@@ -10,16 +10,16 @@ namespace Finite
 	{
 		private State<T> _currentState;
 		private readonly Dictionary<Type, State<T>> _states;
-		private readonly MachineConfiguration _configuration;
+		private readonly MachineConfiguration<T> _configuration;
 		private T _args;
 
 		public StateMachine()
 		{
 			_states = new Dictionary<Type, State<T>>();
-			_configuration = new MachineConfiguration();
+			_configuration = new MachineConfiguration<T>();
 		}
 
-		public MachineConfiguration Configuration
+		public MachineConfiguration<T> Configuration
 		{
 			get { return _configuration; }
 		}
@@ -126,19 +126,19 @@ namespace Finite
 		{
 			var prevType = previous != null ? previous.GetType() : null;
 
-			_currentState.OnEnter(prevType);
-			_configuration.OnEnterState(prevType, target);
+			_currentState.OnEnter(_args, prevType);
+			_configuration.OnEnterState(_args, prevType, target);
 		}
 
 		private void OnLeaveState(Type target, State<T> previous)
 		{
 			var prevType = previous != null ? previous.GetType() : null;
 
-			_configuration.OnLeaveState(prevType, target);
+			_configuration.OnLeaveState(_args, prevType, target);
 
 			if (previous != null)
 			{
-				previous.OnLeave(target);
+				previous.OnLeave(_args, target);
 			}
 		}
 

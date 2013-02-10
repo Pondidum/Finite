@@ -14,8 +14,8 @@ namespace Finite.Tests
 			var enterCalled = 0;
 			var leaveCalled = 0;
 
-			machine.Configuration.OnEnterState = (prev, next) => { enterCalled++; };
-			machine.Configuration.OnLeaveState = (prev, next) => { leaveCalled++; };
+			machine.Configuration.OnEnterState = (args, prev, next) => { enterCalled++; };
+			machine.Configuration.OnLeaveState = (args, prev, next) => { leaveCalled++; };
 
 			machine.InitialiseFrom(new[]{ typeof(FirstState), typeof(SecondState)});
 			machine.BindTo(new TestArgs());

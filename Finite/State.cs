@@ -28,12 +28,12 @@ namespace Finite
 			get { return _links.AsEnumerable(); }
 		}
 
-		public virtual void OnLeave(Type target)
+		public virtual void OnLeave(T args, Type target)
 		{
 			//nothing
 		}
 
-		public virtual void OnEnter(Type previous)
+		public virtual void OnEnter(T args, Type previous)
 		{
 			//nothing
 		}
