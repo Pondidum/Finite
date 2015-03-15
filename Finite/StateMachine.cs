@@ -37,6 +37,8 @@ namespace Finite
 
 		private void SetStateTo(Type target)
 		{
+			_stateProvider.ThrowIfNotKnown(target);
+
 			if (CurrentState != null && GetActiveTargetStates().Contains(target) == false)
 			{
 				throw new InvalidTransitionException(CurrentState.GetType(), target);

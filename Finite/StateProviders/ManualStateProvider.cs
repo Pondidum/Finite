@@ -41,5 +41,13 @@ namespace Finite.StateProviders
 		{
 			return _states[stateType];
 		}
+
+		public void ThrowIfNotKnown(Type stateType)
+		{
+			if (_states.ContainsKey(stateType) == false)
+			{
+				throw new UnknownStateException(stateType);
+			}
+		}
 	}
 }

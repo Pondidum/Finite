@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachineConfigurationTests.cs" />
     <Compile Include="StateMachineTests.cs" />
+    <Compile Include="TestData\FifthState.cs" />
     <Compile Include="TestData\FirstState.cs" />
     <Compile Include="TestData\FourthState.cs" />
     <Compile Include="TestData\SecondState.cs" />

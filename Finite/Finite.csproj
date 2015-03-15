@@ -42,6 +42,7 @@
     <Compile Include="InstanceCreators\DefaultInstanceCreator.cs" />
     <Compile Include="IInstanceCreator.cs" />
     <Compile Include="ILinkConfigurationExpression.cs" />
+    <Compile Include="UnknownStateException.cs" />
     <Compile Include="InvalidTransitionException.cs" />
     <Compile Include="IStateProvider.cs" />
     <Compile Include="Link.cs" />
