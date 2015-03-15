@@ -6,9 +6,9 @@ namespace Finite
 	{
 		private Func<T, bool> _condition;
 
-		public Type Target { get; private set; }
+		public State<T> Target { get; private set; }
 
-		public Link(Type type)
+		public Link(State<T> type)
 		{
 			Target = type;
 			_condition = x => true;		//no When specified, assume active
