@@ -4,7 +4,10 @@
 	{
 		 public FirstState()
 		 {
-			 LinkTo<SecondState>().When(arg => true);
+			 Configure(state =>
+			 {
+				state.LinkTo<SecondState>().When(arg => true);
+			 });
 		 }
 	}
 }
