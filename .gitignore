@@ -1,6 +1,5 @@
 obj
 bin
-packages
 *.ReSharper.user
 _ReSharper.*
 *.resharper
@@ -10,3 +9,12 @@ _ReSharper.*
 *.cache
 *.DotSettings
 *.DotSettings.user
+
+Gemfile.lock
+
+AssemblyVersion.cs
+
+packages
+build
+
+*.sublime-workspace
