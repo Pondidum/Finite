@@ -14,15 +14,13 @@ namespace Finite.Tests
 				new DefaultInstanceCreator(),
 				new[] { typeof(FirstState), typeof(SecondState) });
 
-			var machine = new StateMachine<TestArgs>(states);
+			var machine = new StateMachine<TestArgs>(states, new TestArgs());
 			
 			var enterCalled = 0;
 			var leaveCalled = 0;
 
 			machine.Configuration.OnEnterState = (args, prev, next) => { enterCalled++; };
 			machine.Configuration.OnLeaveState = (args, prev, next) => { leaveCalled++; };
-
-			machine.BindTo(new TestArgs());
 
 			machine.SetStateTo<FirstState>();
 

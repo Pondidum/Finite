@@ -7,15 +7,15 @@ namespace Finite
 	public class StateMachine<T>
 	{
 		private readonly IStateProvider<T> _stateProvider;
-
 		private readonly MachineConfiguration<T> _configuration;
+		private readonly T _args;
 
-		private T _args;
 		private State<T> _currentState;
 
-		public StateMachine(IStateProvider<T> stateProvider)
+		public StateMachine(IStateProvider<T> stateProvider, T args)
 		{
 			_stateProvider = stateProvider;
+			_args = args;
 			_configuration = new MachineConfiguration<T>();
 		}
 
@@ -27,11 +27,6 @@ namespace Finite
 		public Type CurrentState
 		{
 			get { return _currentState.GetType(); }
-		}
-
-		public void BindTo(T args)
-		{
-			_args = args;
 		}
 
 		public void SetStateTo(State<T> state)

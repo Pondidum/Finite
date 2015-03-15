@@ -18,7 +18,7 @@ namespace Finite.Tests
 			new DefaultInstanceCreator(),
 			new Type[] { typeof(FirstState), typeof(SecondState), typeof(ThirdState), typeof(FourthState) });
 
-			_machine = new StateMachine<TestArgs>(states);
+			_machine = new StateMachine<TestArgs>(states, new TestArgs());
 
 			_machine.SetStateTo<FirstState>();
 		}
