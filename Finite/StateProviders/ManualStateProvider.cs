@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Finite.Infrastructure;
+using Finite.InstanceCreators;
 
 namespace Finite.StateProviders
 {
 	public class ManualStateProvider<T> : IStateProvider<T>
 	{
 		private readonly IInstanceCreator _instanceCreator;
-		private readonly Dictionary<Type, State<T>> _states;
+		private readonly IDictionary<Type, State<T>> _states;
 
 		public ManualStateProvider(IInstanceCreator instanceCreator)
 		{
@@ -29,25 +31,20 @@ namespace Finite.StateProviders
 					t => t,
 					t => _instanceCreator.Create<T>(t));
 
-			foreach (var pair in instances)
-			{
-				_states.Add(pair.Key, pair.Value);
-			}
+			instances.ForEach(_states.Add);
+			instances.ForEach(i => i.Value.Configure(this));
 
 			return this;
 		}
 
 		public State<T> GetStateFor(Type stateType)
 		{
-			return _states[stateType];
-		}
-
-		public void ThrowIfNotKnown(Type stateType)
-		{
 			if (_states.ContainsKey(stateType) == false)
 			{
 				throw new UnknownStateException(stateType);
 			}
+
+			return _states[stateType];
 		}
 	}
 }
