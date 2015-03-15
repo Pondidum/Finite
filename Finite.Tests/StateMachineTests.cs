@@ -29,7 +29,7 @@ namespace Finite.Tests
 			_machine.SetStateTo<FirstState>();
 
 			_machine.CurrentState.ShouldBeOfType<FirstState>();
-			_machine.GetAllTargetStates().ShouldBe(new Type[] {typeof (SecondState)});
+			_machine.GetAllTargetStates().Single().ShouldBeOfType<SecondState>();
 		}
 
 		[Fact]
