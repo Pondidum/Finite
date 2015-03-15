@@ -1,23 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Finite
 {
 	public class StateMachine<T>
 	{
-		private readonly IInstanceCreator _instanceCreator;
+		private readonly IStateProvider<T> _stateProvider;
 
-		private Dictionary<Type, State<T>> _states;
 		private readonly MachineConfiguration<T> _configuration;
 
 		private T _args;
 		private State<T> _currentState;
 
-		public StateMachine(IInstanceCreator instanceCreator )
+		public StateMachine(IStateProvider<T> stateProvider)
 		{
-			_instanceCreator = instanceCreator;
+			_stateProvider = stateProvider;
 			_configuration = new MachineConfiguration<T>();
 		}
 
@@ -34,30 +32,6 @@ namespace Finite
 		public void BindTo(T args)
 		{
 			_args = args;
-		}
-
-		public void InitialiseFromThis()
-		{
-			InitialiseFrom(Assembly.GetExecutingAssembly());
-		}
-
-		public void InitialiseFrom(Assembly assembly)
-		{
-			var types = assembly
-				.GetTypes()
-				.Where(t => t.IsAbstract == false)
-				.Where(t => typeof (State<T>).IsAssignableFrom(t));
-
-			InitialiseFrom(types);
-		}
-
-		public void InitialiseFrom(IEnumerable<Type> types)
-		{
-			_states = types
-				.Where(t => typeof (State<T>).IsAssignableFrom(t))
-				.ToDictionary(
-					t =>t,
-					t => _instanceCreator.Create<T>(t));
 		}
 
 		public void SetStateTo(State<T> state)
@@ -91,7 +65,7 @@ namespace Finite
 
 			OnLeaveState(target, previous);
 
-			_currentState = _states[target];
+			_currentState = _stateProvider.GetStateFor(target);
 			
 			OnEnterState(target, previous);
 		}
