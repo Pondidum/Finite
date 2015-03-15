@@ -22,45 +22,39 @@ namespace Finite
 
 		public void SetStateTo<TTarget>() where TTarget : State<T>
 		{
-			SetStateTo(typeof (TTarget));
+			SetStateTo(_stateProvider.GetStateFor( typeof (TTarget)));
 		}
 		
-		public IEnumerable<Type> GetAllTargetStates()
+		public IEnumerable<State<T>> GetAllTargetStates()
 		{
 			return CurrentState.Links.Select(l => l.Target);
 		}
 
-		private void SetStateTo(Type target)
+		private void SetStateTo(State<T> target)
 		{
-			_stateProvider.ThrowIfNotKnown(target);
-
 			if (CurrentState != null && CurrentState.CanTransitionTo(_args, target) == false)
 			{
-				throw new InvalidTransitionException(CurrentState.GetType(), target);
+				throw new InvalidTransitionException(CurrentState.GetType(), target.GetType());
 			}
 
 			var previous = CurrentState;
 
 			OnLeaveState(target, previous);
 
-			CurrentState = _stateProvider.GetStateFor(target);
+			CurrentState = target;
 			
 			OnEnterState(target, previous);
 		}
 
-		private void OnEnterState(Type target, State<T> previous)
+		private void OnEnterState(State<T> target, State<T> previous)
 		{
-			var prevType = previous != null ? previous.GetType() : null;
-
-			CurrentState.OnEnter(_args, prevType);
-			Configuration.OnEnterState(_args, prevType, target);
+			CurrentState.OnEnter(_args, previous);
+			Configuration.OnEnterState(_args, previous, target);
 		}
 
-		private void OnLeaveState(Type target, State<T> previous)
+		private void OnLeaveState(State<T> target, State<T> previous)
 		{
-			var prevType = previous != null ? previous.GetType() : null;
-
-			Configuration.OnLeaveState(_args, prevType, target);
+			Configuration.OnLeaveState(_args, previous, target);
 
 			if (previous != null)
 			{
