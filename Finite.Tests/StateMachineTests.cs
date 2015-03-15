@@ -3,14 +3,13 @@ using System.CodeDom;
 using System.Linq;
 using System.Security.Policy;
 using Finite.Tests.TestData;
-using NUnit.Framework;
+using Xunit;
 
 namespace Finite.Tests
 {
-	[TestFixture]
 	public class StateMachineTests
 	{
-		[Test]
+		[Fact]
 		public void When_setting_the_initial_state()
 		{
 			var machine = new StateMachine<TestArgs>();
@@ -22,7 +21,7 @@ namespace Finite.Tests
 			CollectionAssert.AreEquivalent(new Type[] {typeof (SecondState)}, machine.GetAllTargetStates());
 		}
 
-		[Test]
+		[Fact]
 		public void When_trying_to_move_to_non_allowed_state()
 		{
 			var machine = new StateMachine<TestArgs>();
@@ -34,7 +33,7 @@ namespace Finite.Tests
 			Assert.Throws<InvalidTransitionException>(() => machine.SetStateTo<ThirdState>());
 		}
 
-		[Test]
+		[Fact]
 		public void When_trying_to_move_to_an_allowed_state()
 		{
 			var machine = new StateMachine<TestArgs>();

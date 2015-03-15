@@ -1,13 +1,12 @@
 ﻿using System;
 using Finite.Tests.TestData;
-using NUnit.Framework;
+using Xunit;
 
 namespace Finite.Tests
 {
-	[TestFixture]
 	public class StateMachineConfigurationTests
 	{	 
-		[Test]
+		[Fact]
 		public void When_changing_state_onEnter_and_onLeave_should_be_called()
 		{
 			var machine = new StateMachine<TestArgs>();
