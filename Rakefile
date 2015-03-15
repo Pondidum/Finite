@@ -45,7 +45,7 @@ end
 desc 'Build all nuget packages'
 nugets_pack :pack do |n|
 
-	Dir.mkdir(package_output) unless Dir.exists?(package_output)
+	FileUtils.mkdir_p(package_output) unless Dir.exists?(package_output)
 
 	n.exe = tool_nuget
 	n.out = package_output
