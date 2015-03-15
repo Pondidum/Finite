@@ -4,8 +4,8 @@ namespace Finite
 {
 	public class MachineConfiguration<T>
 	{
-		public Action<T, Type, Type> OnEnterState { get; set; }
-		public Action<T, Type, Type> OnLeaveState { get; set; }
+		public Action<T, State<T>, State<T>> OnEnterState { get; set; }
+		public Action<T, State<T>, State<T>> OnLeaveState { get; set; }
 
 		public MachineConfiguration()
 		{
