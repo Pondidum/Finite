@@ -30,16 +30,11 @@ namespace Finite
 			return CurrentState.Links.Select(l => l.Target);
 		}
 
-		public IEnumerable<Type> GetActiveTargetStates()
-		{
-			return CurrentState.Links.Where(l => l.IsActive(_args)).Select(l => l.Target);
-		}
-
 		private void SetStateTo(Type target)
 		{
 			_stateProvider.ThrowIfNotKnown(target);
 
-			if (CurrentState != null && GetActiveTargetStates().Contains(target) == false)
+			if (CurrentState != null && CurrentState.CanTransitionTo(_args, target) == false)
 			{
 				throw new InvalidTransitionException(CurrentState.GetType(), target);
 			}

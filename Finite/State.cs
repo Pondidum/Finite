@@ -15,7 +15,7 @@ namespace Finite
 
 		protected ILinkConfigurationExpression<T> LinkTo<TTarget>() where TTarget : State<T>
 		{
-			var target = typeof (TTarget);
+			var target = typeof(TTarget);
 			var options = new Link<T>(target);
 
 			_links.Add(options);
@@ -36,6 +36,13 @@ namespace Finite
 		public virtual void OnEnter(T args, Type previous)
 		{
 			//nothing
+		}
+
+		public bool CanTransitionTo(T args, Type target)
+		{
+			return _links
+				.Where(l => l.IsActive(args))
+				.Any(l => l.Target == target);
 		}
 	}
 }
