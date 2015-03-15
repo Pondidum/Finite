@@ -4,18 +4,32 @@ using System.Linq;
 
 namespace Finite
 {
-	public abstract class State<T>
+	public abstract class State<T> : IStateConfiguration<T>
 	{
 		private readonly List<Link<T>> _links;
+		private IStateProvider<T> _stateProvider;
+		private Action<IStateConfiguration<T>> _configuration;
 
 		protected State()
 		{
 			_links = new List<Link<T>>();
+			_configuration = config => { };
 		}
 
-		protected ILinkConfigurationExpression<T> LinkTo<TTarget>() where TTarget : State<T>
+		internal void Configure(IStateProvider<T> stateProvider)
 		{
-			var target = typeof(TTarget);
+			_stateProvider = stateProvider;
+			_configuration.Invoke(this);
+		}
+
+		protected void Configure(Action<IStateConfiguration<T>> config)
+		{
+			_configuration = config;
+		}
+
+		ILinkConfigurationExpression<T> IStateConfiguration<T>.LinkTo<TTarget>()
+		{
+			var target = _stateProvider.GetStateFor(typeof(TTarget));
 			var options = new Link<T>(target);
 
 			_links.Add(options);
@@ -28,21 +42,26 @@ namespace Finite
 			get { return _links.AsEnumerable(); }
 		}
 
-		public virtual void OnLeave(T args, Type target)
+		public virtual void OnLeave(T args, State<T> target)
 		{
 			//nothing
 		}
 
-		public virtual void OnEnter(T args, Type previous)
+		public virtual void OnEnter(T args, State<T> previous)
 		{
 			//nothing
 		}
 
-		public bool CanTransitionTo(T args, Type target)
+		public bool CanTransitionTo(T args, State<T> target)
 		{
 			return _links
 				.Where(l => l.IsActive(args))
 				.Any(l => l.Target == target);
 		}
+	}
+
+	public interface IStateConfiguration<T>
+	{
+		ILinkConfigurationExpression<T> LinkTo<TTarget>() where TTarget : State<T>;
 	}
 }
