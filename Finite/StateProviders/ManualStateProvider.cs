@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Finite
+namespace Finite.StateProviders
 {
 	public class ManualStateProvider<T> : IStateProvider<T>
 	{

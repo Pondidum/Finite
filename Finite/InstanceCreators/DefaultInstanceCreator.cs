@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Finite
+namespace Finite.InstanceCreators
 {
 	public class DefaultInstanceCreator : IInstanceCreator
 	{
