@@ -20,12 +20,6 @@ namespace Finite
 		public State<T> CurrentState { get; private set; }
 
 
-
-		public void SetStateTo(State<T> state)
-		{
-			SetStateTo(state.GetType());
-		}
-
 		public void SetStateTo<TTarget>() where TTarget : State<T>
 		{
 			SetStateTo(typeof (TTarget));
