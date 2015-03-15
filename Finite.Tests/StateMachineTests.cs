@@ -34,7 +34,7 @@ namespace Finite.Tests
 		public void When_trying_to_move_to_non_allowed_state()
 		{
 			_machine.CurrentState.ShouldBe(typeof(FirstState));
-			Assert.Throws<InvalidTransitionException>(() => _machine.SetStateTo<ThirdState>());
+			Should.Throw<InvalidTransitionException>(() => _machine.SetStateTo<ThirdState>());
 		}
 
 		[Fact]
