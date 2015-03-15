@@ -7,27 +7,19 @@ namespace Finite
 	public class StateMachine<T>
 	{
 		private readonly IStateProvider<T> _stateProvider;
-		private readonly MachineConfiguration<T> _configuration;
 		private readonly T _args;
-
-		private State<T> _currentState;
 
 		public StateMachine(IStateProvider<T> stateProvider, T args)
 		{
 			_stateProvider = stateProvider;
 			_args = args;
-			_configuration = new MachineConfiguration<T>();
+			Configuration = new MachineConfiguration<T>();
 		}
 
-		public MachineConfiguration<T> Configuration
-		{
-			get { return _configuration; }
-		}
+		public MachineConfiguration<T> Configuration { get; private set; }
+		public State<T> CurrentState { get; private set; }
 
-		public Type CurrentState
-		{
-			get { return _currentState.GetType(); }
-		}
+
 
 		public void SetStateTo(State<T> state)
 		{
@@ -41,26 +33,26 @@ namespace Finite
 		
 		public IEnumerable<Type> GetAllTargetStates()
 		{
-			return _currentState.Links.Select(l => l.Target);
+			return CurrentState.Links.Select(l => l.Target);
 		}
 
 		public IEnumerable<Type> GetActiveTargetStates()
 		{
-			return _currentState.Links.Where(l => l.IsActive(_args)).Select(l => l.Target);
+			return CurrentState.Links.Where(l => l.IsActive(_args)).Select(l => l.Target);
 		}
 
 		private void SetStateTo(Type target)
 		{
-			if (_currentState != null && GetActiveTargetStates().Contains(target) == false)
+			if (CurrentState != null && GetActiveTargetStates().Contains(target) == false)
 			{
-				throw new InvalidTransitionException(_currentState.GetType(), target);
+				throw new InvalidTransitionException(CurrentState.GetType(), target);
 			}
 
-			var previous = _currentState;
+			var previous = CurrentState;
 
 			OnLeaveState(target, previous);
 
-			_currentState = _stateProvider.GetStateFor(target);
+			CurrentState = _stateProvider.GetStateFor(target);
 			
 			OnEnterState(target, previous);
 		}
@@ -69,15 +61,15 @@ namespace Finite
 		{
 			var prevType = previous != null ? previous.GetType() : null;
 
-			_currentState.OnEnter(_args, prevType);
-			_configuration.OnEnterState(_args, prevType, target);
+			CurrentState.OnEnter(_args, prevType);
+			Configuration.OnEnterState(_args, prevType, target);
 		}
 
 		private void OnLeaveState(Type target, State<T> previous)
 		{
 			var prevType = previous != null ? previous.GetType() : null;
 
-			_configuration.OnLeaveState(_args, prevType, target);
+			Configuration.OnLeaveState(_args, prevType, target);
 
 			if (previous != null)
 			{
