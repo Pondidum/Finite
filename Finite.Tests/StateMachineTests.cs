@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Linq;
 using System.Security.Policy;
 using Finite.Tests.TestData;
+using Shouldly;
 using Xunit;
 
 namespace Finite.Tests
@@ -17,8 +18,8 @@ namespace Finite.Tests
 
 			machine.SetStateTo<FirstState>();
 
-			Assert.AreEqual(typeof(FirstState), machine.CurrentState);
-			CollectionAssert.AreEquivalent(new Type[] {typeof (SecondState)}, machine.GetAllTargetStates());
+			machine.CurrentState.ShouldBe(typeof(FirstState));
+			machine.GetAllTargetStates().ShouldBe(new Type[] {typeof (SecondState)});
 		}
 
 		[Fact]
@@ -29,7 +30,7 @@ namespace Finite.Tests
 
 			machine.SetStateTo<FirstState>();
 
-			Assert.AreEqual(typeof(FirstState), machine.CurrentState);
+			machine.CurrentState.ShouldBe(typeof(FirstState));
 			Assert.Throws<InvalidTransitionException>(() => machine.SetStateTo<ThirdState>());
 		}
 
@@ -40,10 +41,10 @@ namespace Finite.Tests
 			machine.InitialiseFrom(new Type[] { typeof(FirstState), typeof(SecondState), typeof(ThirdState), typeof(FourthState) });
 
 			machine.SetStateTo<FirstState>();
-			Assert.AreEqual(typeof(FirstState), machine.CurrentState);
+			machine.CurrentState.ShouldBe(typeof(FirstState));
 
 			machine.SetStateTo<SecondState>();
-			Assert.AreEqual(typeof(SecondState), machine.CurrentState);
+			machine.CurrentState.ShouldBe(typeof(SecondState));
 		}
 	}
 }

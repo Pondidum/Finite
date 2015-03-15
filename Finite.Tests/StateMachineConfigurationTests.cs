@@ -1,5 +1,6 @@
 ﻿using System;
 using Finite.Tests.TestData;
+using Shouldly;
 using Xunit;
 
 namespace Finite.Tests
@@ -21,8 +22,8 @@ namespace Finite.Tests
 
 			machine.SetStateTo<FirstState>();
 
-			Assert.AreEqual(1, leaveCalled);
-			Assert.AreEqual(1, enterCalled);
+			leaveCalled.ShouldBe(1);
+			enterCalled.ShouldBe(1);
 		}
 	}
 }
