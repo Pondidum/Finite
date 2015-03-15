@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,14 +7,17 @@ namespace Finite
 {
 	public class StateMachine<T>
 	{
-		private State<T> _currentState;
-		private readonly Dictionary<Type, State<T>> _states;
-		private readonly MachineConfiguration<T> _configuration;
-		private T _args;
+		private readonly IInstanceCreator _instanceCreator;
 
-		public StateMachine()
+		private Dictionary<Type, State<T>> _states;
+		private readonly MachineConfiguration<T> _configuration;
+
+		private T _args;
+		private State<T> _currentState;
+
+		public StateMachine(IInstanceCreator instanceCreator )
 		{
-			_states = new Dictionary<Type, State<T>>();
+			_instanceCreator = instanceCreator;
 			_configuration = new MachineConfiguration<T>();
 		}
 
@@ -41,49 +43,21 @@ namespace Finite
 
 		public void InitialiseFrom(Assembly assembly)
 		{
-			var types = assembly.GetTypes()
-								.Where(t => t.IsAbstract == false)
-								.Where(t => typeof(State<T>).IsAssignableFrom(t))
-								.ToList();
+			var types = assembly
+				.GetTypes()
+				.Where(t => t.IsAbstract == false)
+				.Where(t => typeof (State<T>).IsAssignableFrom(t));
 
 			InitialiseFrom(types);
 		}
 
 		public void InitialiseFrom(IEnumerable<Type> types)
 		{
-			var constuctorMap = types.ToDictionary(t => t, t => t.GetConstructor(new Type[] { }));
-
-			var instances = constuctorMap.Where(c => c.Value != null)
-										 .ToDictionary(p => p.Key, p => CreateInstance(p.Value))
-										 .Where(p => p.Value != null)
-										 .ToDictionary(p => p.Key, p => p.Value);
-
-			var errors = new List<String>();
-			errors.AddRange(constuctorMap.Where(c => c.Value == null)
-										 .Select(c => string.Format("Unable to find a default constructor for {0}.", c.Key.Name)));
-
-			errors.AddRange(instances.Select(p => p.Value) 
-									 .OfType<Exception>()
-									 .Select(e => e.Message));
-
-			_states.Clear();
-
-			foreach (var pair in instances.Where(p => p.Value is State<T>))
-			{
-				_states.Add(pair.Key, (State<T>)pair.Value);
-			}
-		}
-
-		private Object CreateInstance(ConstructorInfo constructor)
-		{
-			try
-			{
-				return constructor.Invoke(null);
-			}
-			catch (Exception ex)
-			{
-				return ex;
-			}
+			_states = types
+				.Where(t => typeof (State<T>).IsAssignableFrom(t))
+				.ToDictionary(
+					t =>t,
+					t => _instanceCreator.Create<T>(t));
 		}
 
 		public void SetStateTo(State<T> state)

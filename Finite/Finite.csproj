@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultInstanceCreator.cs" />
+    <Compile Include="IInstanceCreator.cs" />
     <Compile Include="ILinkConfigurationExpression.cs" />
     <Compile Include="InvalidTransitionException.cs" />
     <Compile Include="Link.cs" />

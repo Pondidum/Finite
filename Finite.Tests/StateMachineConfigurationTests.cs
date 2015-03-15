@@ -10,7 +10,7 @@ namespace Finite.Tests
 		[Fact]
 		public void When_changing_state_onEnter_and_onLeave_should_be_called()
 		{
-			var machine = new StateMachine<TestArgs>();
+			var machine = new StateMachine<TestArgs>(new DefaultInstanceCreator());
 			var enterCalled = 0;
 			var leaveCalled = 0;
 

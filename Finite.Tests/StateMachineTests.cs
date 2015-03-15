@@ -13,7 +13,7 @@ namespace Finite.Tests
 		[Fact]
 		public void When_setting_the_initial_state()
 		{
-			var machine = new StateMachine<TestArgs>();
+			var machine = new StateMachine<TestArgs>(new DefaultInstanceCreator());
 			machine.InitialiseFrom(new Type[] {typeof(FirstState), typeof(SecondState), typeof(ThirdState), typeof(FourthState)});
 
 			machine.SetStateTo<FirstState>();
@@ -25,7 +25,7 @@ namespace Finite.Tests
 		[Fact]
 		public void When_trying_to_move_to_non_allowed_state()
 		{
-			var machine = new StateMachine<TestArgs>();
+			var machine = new StateMachine<TestArgs>(new DefaultInstanceCreator());
 			machine.InitialiseFrom(new Type[] { typeof(FirstState), typeof(SecondState), typeof(ThirdState), typeof(FourthState) });
 
 			machine.SetStateTo<FirstState>();
@@ -37,7 +37,7 @@ namespace Finite.Tests
 		[Fact]
 		public void When_trying_to_move_to_an_allowed_state()
 		{
-			var machine = new StateMachine<TestArgs>();
+			var machine = new StateMachine<TestArgs>(new DefaultInstanceCreator());
 			machine.InitialiseFrom(new Type[] { typeof(FirstState), typeof(SecondState), typeof(ThirdState), typeof(FourthState) });
 
 			machine.SetStateTo<FirstState>();
