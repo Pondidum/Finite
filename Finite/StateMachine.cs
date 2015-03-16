@@ -11,6 +11,11 @@ namespace Finite
 		private readonly IStateProvider<T> _stateProvider;
 		private readonly T _args;
 
+		public StateMachine(IStateProvider<T> stateProvider, T args)
+			: this(null, stateProvider, args)
+		{
+		}
+
 		public StateMachine(IMachineConfiguration<T> configuration, IStateProvider<T> stateProvider, T args)
 		{
 			_configuration = configuration ?? new NullConfiguration<T>();
@@ -22,9 +27,9 @@ namespace Finite
 
 		public void SetStateTo<TTarget>() where TTarget : State<T>
 		{
-			SetStateTo(_stateProvider.GetStateFor( typeof (TTarget)));
+			SetStateTo(_stateProvider.GetStateFor(typeof(TTarget)));
 		}
-		
+
 		public IEnumerable<State<T>> GetAllTargetStates()
 		{
 			return CurrentState.Links.Select(l => l.Target);
@@ -42,7 +47,7 @@ namespace Finite
 			OnLeaveState(target, previous);
 
 			CurrentState = target;
-			
+
 			OnEnterState(target, previous);
 		}
 
@@ -62,6 +67,6 @@ namespace Finite
 			}
 		}
 
-		
+
 	}
 }
