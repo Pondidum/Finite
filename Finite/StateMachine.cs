@@ -1,24 +1,24 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Finite.Configurations;
 
 namespace Finite
 {
 	public class StateMachine<T>
 	{
+		private readonly IMachineConfiguration<T> _configuration;
 		private readonly IStateProvider<T> _stateProvider;
 		private readonly T _args;
 
-		public StateMachine(IStateProvider<T> stateProvider, T args)
+		public StateMachine(IMachineConfiguration<T> configuration, IStateProvider<T> stateProvider, T args)
 		{
+			_configuration = configuration ?? new NullConfiguration<T>();
 			_stateProvider = stateProvider;
 			_args = args;
-			Configuration = new MachineConfiguration<T>();
 		}
 
-		public MachineConfiguration<T> Configuration { get; private set; }
 		public State<T> CurrentState { get; private set; }
-
 
 		public void SetStateTo<TTarget>() where TTarget : State<T>
 		{
@@ -49,12 +49,12 @@ namespace Finite
 		private void OnEnterState(State<T> target, State<T> previous)
 		{
 			CurrentState.OnEnter(_args, previous);
-			Configuration.OnEnterState(_args, previous, target);
+			_configuration.OnEnterState(_args, previous, target);
 		}
 
 		private void OnLeaveState(State<T> target, State<T> previous)
 		{
-			Configuration.OnLeaveState(_args, previous, target);
+			_configuration.OnLeaveState(_args, previous, target);
 
 			if (previous != null)
 			{
