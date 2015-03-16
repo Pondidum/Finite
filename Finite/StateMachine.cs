@@ -42,28 +42,28 @@ namespace Finite
 				throw new InvalidTransitionException(CurrentState.GetType(), target.GetType());
 			}
 
-			var previous = CurrentState;
+			var stateChangeArgs = new StateChangeEventArgs<T>(_args, CurrentState, target);
 
-			OnLeaveState(target, previous);
+			OnLeaveState(stateChangeArgs);
 
 			CurrentState = target;
 
-			OnEnterState(target, previous);
+			OnEnterState(stateChangeArgs);
 		}
 
-		private void OnEnterState(State<T> target, State<T> previous)
+		private void OnEnterState(StateChangeEventArgs<T> stateChangeArgs)
 		{
-			CurrentState.OnEnter(_args, previous);
-			_configuration.OnEnterState(_args, previous, target);
+			CurrentState.OnEnter(this, stateChangeArgs);
+			_configuration.OnEnterState(this, stateChangeArgs);
 		}
 
-		private void OnLeaveState(State<T> target, State<T> previous)
+		private void OnLeaveState(StateChangeEventArgs<T> stateChangeArgs)
 		{
-			_configuration.OnLeaveState(_args, previous, target);
+			_configuration.OnLeaveState(this, stateChangeArgs);
 
-			if (previous != null)
+			if (stateChangeArgs.Previous != null)
 			{
-				previous.OnLeave(_args, target);
+				stateChangeArgs.Previous.OnLeave(this, stateChangeArgs);
 			}
 		}
 

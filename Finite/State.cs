@@ -42,12 +42,12 @@ namespace Finite
 			get { return _links.AsEnumerable(); }
 		}
 
-		public virtual void OnLeave(T args, State<T> target)
+		public virtual void OnLeave(object sender, StateChangeEventArgs<T> stateChangeArgs)
 		{
 			//nothing
 		}
 
-		public virtual void OnEnter(T args, State<T> previous)
+		public virtual void OnEnter(object sender, StateChangeEventArgs<T> stateChangeArgs)
 		{
 			//nothing
 		}

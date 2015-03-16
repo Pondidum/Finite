@@ -23,8 +23,13 @@ namespace Finite.Tests
 			
 			machine.SetStateTo<FirstState>();
 
-			configuration.Received(1).OnLeaveState(Arg.Any<TestArgs>(), Arg.Is<State<TestArgs>>(a => a == null), Arg.Any<FirstState>());
-			configuration.Received(1).OnEnterState(Arg.Any<TestArgs>(), Arg.Is<State<TestArgs>>(a => a == null), Arg.Any<FirstState>());
+			configuration
+				.Received(1)
+				.OnLeaveState(machine, Arg.Is<StateChangeEventArgs<TestArgs>>(a => a.Next.GetType() == typeof(FirstState)));
+
+			configuration
+				.Received(1)
+				.OnEnterState(machine, Arg.Is<StateChangeEventArgs<TestArgs>>(a => a.Next.GetType() == typeof(FirstState)));
 		}
 	}
 }
