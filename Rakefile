@@ -53,9 +53,11 @@ nugets_pack :pack do |n|
 	n.files = FileList["#{project_name}/*.csproj"]
 
 	n.with_metadata do |m|
-		m.description = 'Model based web dashboard'
+		m.description = 'A simple Finite State Machine library'
 		m.authors = 'Andy Dote'
+		m.project_url = 'https://github.com/pondidum/Finite'
 		m.version = project_version
+		m.tags = 'statemachine fsm graph'
 	end
 
 end
