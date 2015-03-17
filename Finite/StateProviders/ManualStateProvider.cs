@@ -11,30 +11,21 @@ namespace Finite.StateProviders
 		private readonly IInstanceCreator _instanceCreator;
 		private readonly IDictionary<Type, State<T>> _states;
 
-		public ManualStateProvider(IInstanceCreator instanceCreator)
+		public ManualStateProvider(IEnumerable<Type> states)
+			: this(null, states)
 		{
-			_instanceCreator = instanceCreator;
-			_states = new Dictionary<Type, State<T>>();
 		}
 
 		public ManualStateProvider(IInstanceCreator instanceCreator, IEnumerable<Type> states)
-			: this(instanceCreator)
 		{
-			AddRange(states);
-		}
+			_instanceCreator = instanceCreator ?? new DefaultInstanceCreator();
 
-		public ManualStateProvider<T> AddRange(IEnumerable<Type> types)
-		{
-			var instances = types
+			_states = states
 				.Where(t => typeof(State<T>).IsAssignableFrom(t))
-				.ToDictionary(
-					t => t,
-					t => _instanceCreator.Create<T>(t));
+				.ToDictionary(t => t, t => _instanceCreator.Create<T>(t));
 
-			instances.ForEach(_states.Add);
-			instances.ForEach(i => i.Value.Configure(this));
+			_states.ForEach(i => i.Value.Configure(this));
 
-			return this;
 		}
 
 		public State<T> GetStateFor(Type stateType)
