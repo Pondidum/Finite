@@ -17,9 +17,13 @@ namespace Finite.Tests
 
 		public StateMachineTests()
 		{
-			var states = new ManualStateProvider<TestArgs>(
-			new DefaultInstanceCreator(),
-			new Type[] { typeof(FirstState), typeof(SecondState), typeof(ThirdState), typeof(FourthState) });
+			var states = new ManualStateProvider<TestArgs>(new Type[]
+			{
+				typeof(FirstState),
+				typeof(SecondState),
+				typeof(ThirdState),
+				typeof(FourthState)
+			});
 
 			_machine = new StateMachine<TestArgs>(states, new TestArgs());
 		}

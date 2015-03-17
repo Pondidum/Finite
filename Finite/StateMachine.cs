@@ -7,7 +7,7 @@ namespace Finite
 {
 	public class StateMachine<T>
 	{
-		private readonly IMachineConfiguration<T> _configuration;
+		private readonly MachineConfiguration<T> _configuration;
 		private readonly IStateProvider<T> _stateProvider;
 		private readonly T _args;
 
@@ -16,9 +16,9 @@ namespace Finite
 		{
 		}
 
-		public StateMachine(IMachineConfiguration<T> configuration, IStateProvider<T> stateProvider, T args)
+		public StateMachine(MachineConfiguration<T> configuration, IStateProvider<T> stateProvider, T args)
 		{
-			_configuration = configuration ?? new NullConfiguration<T>();
+			_configuration = configuration ?? new MachineConfiguration<T>();
 			_stateProvider = stateProvider;
 			_args = args;
 		}
@@ -54,12 +54,13 @@ namespace Finite
 		private void OnEnterState(StateChangeEventArgs<T> stateChangeArgs)
 		{
 			CurrentState.OnEnter(this, stateChangeArgs);
-			_configuration.OnEnterState(this, stateChangeArgs);
+
+			_configuration.StateChangedHandler.OnEnterState(this, stateChangeArgs);
 		}
 
 		private void OnLeaveState(StateChangeEventArgs<T> stateChangeArgs)
 		{
-			_configuration.OnLeaveState(this, stateChangeArgs);
+			_configuration.StateChangedHandler.OnLeaveState(this, stateChangeArgs);
 
 			if (stateChangeArgs.Previous != null)
 			{

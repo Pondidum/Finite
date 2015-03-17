@@ -1,4 +1,5 @@
 ﻿using System;
+using Finite.Configurations;
 using Finite.InstanceCreators;
 using Finite.StateProviders;
 using Finite.Tests.TestData;
@@ -13,7 +14,11 @@ namespace Finite.Tests
 		[Fact]
 		public void When_changing_state_onEnter_and_onLeave_should_be_called()
 		{
-			var configuration = Substitute.For<IMachineConfiguration<TestArgs>>();
+			var stateChangedHandler = Substitute.For<IStateChangedHandler<TestArgs>>();
+			var configuration = new MachineConfiguration<TestArgs>
+			{
+				StateChangedHandler = stateChangedHandler
+			};
 
 			var states = new ManualStateProvider<TestArgs>(
 				new DefaultInstanceCreator(),
@@ -23,11 +28,11 @@ namespace Finite.Tests
 			
 			machine.SetStateTo<FirstState>();
 
-			configuration
+			stateChangedHandler
 				.Received(1)
 				.OnLeaveState(machine, Arg.Is<StateChangeEventArgs<TestArgs>>(a => a.Next.GetType() == typeof(FirstState)));
 
-			configuration
+			stateChangedHandler
 				.Received(1)
 				.OnEnterState(machine, Arg.Is<StateChangeEventArgs<TestArgs>>(a => a.Next.GetType() == typeof(FirstState)));
 		}

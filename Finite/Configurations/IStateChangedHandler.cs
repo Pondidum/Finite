@@ -1,6 +1,6 @@
-﻿namespace Finite
+namespace Finite.Configurations
 {
-	public interface IMachineConfiguration<T>
+	public interface IStateChangedHandler<T>
 	{
 		void OnLeaveState(object sender, StateChangeEventArgs<T> stateChangeArgs);
 		void OnEnterState(object sender, StateChangeEventArgs<T> stateChangeArgs);
