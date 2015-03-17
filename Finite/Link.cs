@@ -14,9 +14,9 @@ namespace Finite
 			_condition = x => true;		//no When specified, assume active
 		}
 
-		public bool IsActive(T args)
+		public bool IsActive(T switches)
 		{
-			return _condition.Invoke(args);
+			return _condition.Invoke(switches);
 		}
 
 		void ILinkConfigurationExpression<T>.When(Func<T, bool> condition)

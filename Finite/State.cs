@@ -52,10 +52,10 @@ namespace Finite
 			//nothing
 		}
 
-		public bool CanTransitionTo(T args, State<T> target)
+		public bool CanTransitionTo(T switches, State<T> target)
 		{
 			return _links
-				.Where(l => l.IsActive(args))
+				.Where(l => l.IsActive(switches))
 				.Any(l => l.Target == target);
 		}
 	}
