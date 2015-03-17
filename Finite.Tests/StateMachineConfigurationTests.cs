@@ -1,6 +1,5 @@
 ﻿using System;
 using Finite.Configurations;
-using Finite.InstanceCreators;
 using Finite.StateProviders;
 using Finite.Tests.TestData;
 using NSubstitute;

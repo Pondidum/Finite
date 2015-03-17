@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Finite.Configurations;
 using Finite.Infrastructure;
-using Finite.InstanceCreators;
 
 namespace Finite.StateProviders
 {

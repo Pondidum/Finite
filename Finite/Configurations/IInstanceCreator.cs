@@ -1,6 +1,6 @@
 using System;
 
-namespace Finite
+namespace Finite.Configurations
 {
 	public interface IInstanceCreator
 	{

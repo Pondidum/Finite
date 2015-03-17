@@ -1,6 +1,4 @@
-﻿using Finite.InstanceCreators;
-
-namespace Finite.Configurations
+﻿namespace Finite.Configurations
 {
 	public class MachineConfiguration<T>
 	{

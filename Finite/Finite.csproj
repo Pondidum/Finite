@@ -42,8 +42,8 @@
     <Compile Include="Configurations\DefaultStateChangedHandler.cs" />
     <Compile Include="Configurations\IStateChangedHandler.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
-    <Compile Include="InstanceCreators\DefaultInstanceCreator.cs" />
-    <Compile Include="IInstanceCreator.cs" />
+    <Compile Include="Configurations\DefaultInstanceCreator.cs" />
+    <Compile Include="Configurations\IInstanceCreator.cs" />
     <Compile Include="ILinkConfigurationExpression.cs" />
     <Compile Include="StateChangeEventArgs.cs" />
     <Compile Include="UnknownStateException.cs" />
