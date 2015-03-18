@@ -46,6 +46,7 @@
     <Compile Include="Configurations\IInstanceCreator.cs" />
     <Compile Include="ILinkConfigurationExpression.cs" />
     <Compile Include="StateChangeEventArgs.cs" />
+    <Compile Include="StateMachineException.cs" />
     <Compile Include="UnknownStateException.cs" />
     <Compile Include="InvalidTransitionException.cs" />
     <Compile Include="IStateProvider.cs" />

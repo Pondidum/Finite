@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Finite.Configurations;
@@ -27,23 +26,37 @@ namespace Finite
 
 		public State<TSwitches> CurrentState { get; private set; }
 
-		public void SetStateTo<TTarget>() where TTarget : State<TSwitches>
-		{
-			SetStateTo(_stateProvider.GetStateFor(typeof(TTarget)));
-		}
-
 		public IEnumerable<State<TSwitches>> GetAllTargetStates()
 		{
 			return CurrentState.Links.Select(l => l.Target);
 		}
 
-		private void SetStateTo(State<TSwitches> target)
+		public void ResetTo<TTarget>() where TTarget : State<TSwitches>
 		{
-			if (CurrentState != null && CurrentState.CanTransitionTo(_switches, target) == false)
+			CurrentState = _stateProvider.GetStateFor(typeof(TTarget));
+		}
+
+		public void TransitionTo<TTarget>() where TTarget : State<TSwitches>
+		{
+			var type = typeof(TTarget);
+			var state = _stateProvider.GetStateFor(type);
+
+			if (CurrentState == null)
 			{
-				throw new InvalidTransitionException(CurrentState.GetType(), target.GetType());
+				throw new StateMachineException();
 			}
 
+			if (CurrentState.CanTransitionTo(_switches, state) == false)
+			{
+				throw new InvalidTransitionException(CurrentState.GetType(), type);
+			}
+
+			SetStateTo(state);
+		}
+
+
+		private void SetStateTo(State<TSwitches> target)
+		{
 			var stateChangeArgs = new StateChangeEventArgs<TSwitches>(_switches, CurrentState, target);
 
 			OnLeaveState(stateChangeArgs);
@@ -69,7 +82,5 @@ namespace Finite
 				stateChangeArgs.Previous.OnLeave(this, stateChangeArgs);
 			}
 		}
-
-
 	}
 }

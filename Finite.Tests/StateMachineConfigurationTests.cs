@@ -27,15 +27,15 @@ namespace Finite.Tests
 
 			var machine = new StateMachine<TestArgs>(configuration, states, new TestArgs());
 
-			machine.SetStateTo<FirstState>();
+			machine.ResetTo<FirstState>();
 
 			stateChangedHandler
-				.Received(1)
-				.OnLeaveState(machine, Arg.Is<StateChangeEventArgs<TestArgs>>(a => a.Next.GetType() == typeof(FirstState)));
+				.DidNotReceiveWithAnyArgs()
+				.OnLeaveState(null, null);
 
 			stateChangedHandler
-				.Received(1)
-				.OnEnterState(machine, Arg.Is<StateChangeEventArgs<TestArgs>>(a => a.Next.GetType() == typeof(FirstState)));
+				.DidNotReceiveWithAnyArgs()
+				.OnEnterState(null, null);
 		}
 	}
 }

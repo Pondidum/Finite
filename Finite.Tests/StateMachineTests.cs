@@ -30,7 +30,7 @@ namespace Finite.Tests
 		[Fact]
 		public void When_setting_the_initial_state()
 		{
-			_machine.SetStateTo<FirstState>();
+			_machine.ResetTo<FirstState>();
 
 			_machine.CurrentState.ShouldBeOfType<FirstState>();
 			_machine.GetAllTargetStates().Single().ShouldBeOfType<SecondState>();
@@ -39,27 +39,27 @@ namespace Finite.Tests
 		[Fact]
 		public void When_trying_to_move_to_non_allowed_state()
 		{
-			_machine.SetStateTo<FirstState>();
-
+			_machine.ResetTo<FirstState>();
 			_machine.CurrentState.ShouldBeOfType<FirstState>();
-			Should.Throw<InvalidTransitionException>(() => _machine.SetStateTo<ThirdState>());
+
+			Should.Throw<InvalidTransitionException>(() => _machine.TransitionTo<ThirdState>());
 		}
 
 		[Fact]
 		public void When_trying_to_move_to_an_allowed_state()
 		{
 
-			_machine.SetStateTo<FirstState>();
+			_machine.ResetTo<FirstState>();
 			_machine.CurrentState.ShouldBeOfType<FirstState>();
 
-			_machine.SetStateTo<SecondState>();
+			_machine.TransitionTo<SecondState>();
 			_machine.CurrentState.ShouldBeOfType<SecondState>();
 		}
 
 		[Fact]
 		public void State_can_only_be_set_to_a_state_the_machine_knows_about()
 		{
-			Should.Throw<UnknownStateException>(() => _machine.SetStateTo<FifthState>());
+			Should.Throw<UnknownStateException>(() => _machine.TransitionTo<FifthState>());
 		}
 	}
 }
