@@ -39,29 +39,23 @@ namespace Finite
 		public void TransitionTo<TTarget>() where TTarget : State<TSwitches>
 		{
 			var type = typeof(TTarget);
-			var state = _stateProvider.GetStateFor(type);
+			var targetState = _stateProvider.GetStateFor(type);
 
 			if (CurrentState == null)
 			{
 				throw new StateMachineException();
 			}
 
-			if (CurrentState.CanTransitionTo(_switches, state) == false)
+			if (CurrentState.CanTransitionTo(_switches, targetState) == false)
 			{
 				throw new InvalidTransitionException(CurrentState.GetType(), type);
 			}
 
-			SetStateTo(state);
-		}
-
-
-		private void SetStateTo(State<TSwitches> target)
-		{
-			var stateChangeArgs = new StateChangeEventArgs<TSwitches>(_switches, CurrentState, target);
+			var stateChangeArgs = new StateChangeEventArgs<TSwitches>(_switches, CurrentState, targetState);
 
 			OnLeaveState(stateChangeArgs);
 
-			CurrentState = target;
+			CurrentState = targetState;
 
 			OnEnterState(stateChangeArgs);
 		}
