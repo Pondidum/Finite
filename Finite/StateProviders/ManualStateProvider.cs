@@ -8,24 +8,22 @@ namespace Finite.StateProviders
 {
 	public class ManualStateProvider<T> : IStateProvider<T>
 	{
-		private readonly IInstanceCreator _instanceCreator;
 		private readonly IDictionary<Type, State<T>> _states;
+		private readonly List<Type> _types;
 
 		public ManualStateProvider(IEnumerable<Type> states)
-			: this(null, states)
 		{
+			_types = states.ToList();
+			_states = new Dictionary<Type, State<T>>();
 		}
 
-		public ManualStateProvider(IInstanceCreator instanceCreator, IEnumerable<Type> states)
+		public void InitialiseStates(IInstanceCreator instanceCreator)
 		{
-			_instanceCreator = instanceCreator ?? new DefaultInstanceCreator();
-
-			_states = states
+			_states.AddRange(_types
 				.Where(t => typeof(State<T>).IsAssignableFrom(t))
-				.ToDictionary(t => t, t => _instanceCreator.Create<T>(t));
+				.ToDictionary(t => t, instanceCreator.Create<T>));
 
 			_states.ForEach(i => i.Value.Configure(this));
-
 		}
 
 		public State<T> GetStateFor(Type stateType)

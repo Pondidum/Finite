@@ -21,6 +21,8 @@ namespace Finite
 			_configuration = configuration ?? new MachineConfiguration<TSwitches>();
 			_stateProvider = stateProvider;
 			_switches = switches;
+
+			_stateProvider.InitialiseStates(_configuration.InstanceCreator);
 		}
 
 		public State<TSwitches> CurrentState { get; private set; }

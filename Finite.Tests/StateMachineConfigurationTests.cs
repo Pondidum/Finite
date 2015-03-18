@@ -19,12 +19,14 @@ namespace Finite.Tests
 				StateChangedHandler = stateChangedHandler
 			};
 
-			var states = new ManualStateProvider<TestArgs>(
-				new DefaultInstanceCreator(),
-				new[] { typeof(FirstState), typeof(SecondState) });
+			var states = new ManualStateProvider<TestArgs>(new[]
+			{
+				typeof(FirstState),
+				typeof(SecondState)
+			});
 
 			var machine = new StateMachine<TestArgs>(configuration, states, new TestArgs());
-			
+
 			machine.SetStateTo<FirstState>();
 
 			stateChangedHandler
