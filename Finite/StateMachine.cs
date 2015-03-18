@@ -33,13 +33,13 @@ namespace Finite
 
 		public void ResetTo<TTarget>() where TTarget : State<TSwitches>
 		{
-			CurrentState = _stateProvider.GetStateFor(typeof(TTarget));
+			CurrentState = _stateProvider.GetStateFor<TTarget>();
 		}
 
 		public void TransitionTo<TTarget>() where TTarget : State<TSwitches>
 		{
 			var type = typeof(TTarget);
-			var targetState = _stateProvider.GetStateFor(type);
+			var targetState = _stateProvider.GetStateFor<TTarget>();
 
 			if (CurrentState == null)
 			{

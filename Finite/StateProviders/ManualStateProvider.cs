@@ -26,8 +26,10 @@ namespace Finite.StateProviders
 			_states.ForEach(i => i.Value.Configure(this));
 		}
 
-		public State<T> GetStateFor(Type stateType)
+		public State<T> GetStateFor<TState>()
 		{
+			var stateType = typeof(TState);
+
 			if (_states.ContainsKey(stateType) == false)
 			{
 				throw new UnknownStateException(stateType);

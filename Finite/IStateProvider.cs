@@ -6,6 +6,6 @@ namespace Finite
 	public interface IStateProvider<T>
 	{
 		void InitialiseStates(IInstanceCreator instanceCreator);
-		State<T> GetStateFor(Type stateType);
+		State<T> GetStateFor<TState>();
 	}
 }

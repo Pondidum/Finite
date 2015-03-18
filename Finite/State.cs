@@ -29,7 +29,7 @@ namespace Finite
 
 		ILinkConfigurationExpression<T> IStateConfiguration<T>.LinkTo<TTarget>()
 		{
-			var target = _stateProvider.GetStateFor(typeof(TTarget));
+			var target = _stateProvider.GetStateFor<TTarget>();
 			var options = new Link<T>(target);
 
 			_links.Add(options);
