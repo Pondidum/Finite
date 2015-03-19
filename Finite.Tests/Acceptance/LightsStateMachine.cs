@@ -13,25 +13,35 @@ namespace Finite.Tests.Acceptance
 		{
 			var states = new ManualStateProvider<LightsSwitches>(new[]
 			{
-				typeof(LightOff),
-				typeof(LightOnDim),
-				typeof(LightOnFull),
+				typeof (LightOff),
+				typeof (LightOnDim),
+				typeof (LightOnFull),
 			});
 
 			var switches = new LightsSwitches();
-			
+
 			var machine = new StateMachine<LightsSwitches>(states, switches);
+			
 			machine.ResetTo<LightOff>();
+			machine.CurrentState.ShouldBeOfType<LightOff>();
 
 			machine.AllTargetStates
 				.Select(state => state.GetType())
-				.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull)}, true);
+				.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull) }, true);
 
 			machine.ActiveTargetStates
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnFull) });
 
+			machine.InactiveTargetStates
+				.Select(state => state.GetType())
+				.ShouldBe(new[] { typeof(LightOnDim) });
+
 			Should.Throw<InvalidTransitionException>(() => machine.TransitionTo<LightOnDim>());
-		} 
+			machine.CurrentState.ShouldBeOfType<LightOff>();
+
+			machine.TransitionTo<LightOnFull>();
+			machine.CurrentState.ShouldBeOfType<LightOnFull>();
+		}
 	}
 }
