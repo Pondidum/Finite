@@ -31,6 +31,11 @@ namespace Finite
 			get { return CurrentState.Links.Select(l => l.Target); }
 		}
 
+		public IEnumerable<State<TSwitches>> ActiveTargetStates
+		{
+			get { return CurrentState.Links.Where(l => l.IsActive(_switches)).Select(l => l.Target); }
+		}
+
 		public void ResetTo<TTarget>() where TTarget : State<TSwitches>
 		{
 			CurrentState = _stateProvider.GetStateFor<TTarget>();

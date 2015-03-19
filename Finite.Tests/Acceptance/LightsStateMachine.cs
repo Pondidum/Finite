@@ -27,6 +27,10 @@ namespace Finite.Tests.Acceptance
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull)}, true);
 
+			machine.ActiveTargetStates
+				.Select(state => state.GetType())
+				.ShouldBe(new[] { typeof(LightOnFull) });
+
 			Should.Throw<InvalidTransitionException>(() => machine.TransitionTo<LightOnDim>());
 		} 
 	}
