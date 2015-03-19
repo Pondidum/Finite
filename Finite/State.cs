@@ -59,9 +59,4 @@ namespace Finite
 				.Any(l => l.Target == target);
 		}
 	}
-
-	public interface IStateConfiguration<T>
-	{
-		ILinkConfigurationExpression<T> LinkTo<TTarget>() where TTarget : State<T>;
-	}
 }
