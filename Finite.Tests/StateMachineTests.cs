@@ -33,7 +33,7 @@ namespace Finite.Tests
 			_machine.ResetTo<FirstState>();
 
 			_machine.CurrentState.ShouldBeOfType<FirstState>();
-			_machine.GetAllTargetStates().Single().ShouldBeOfType<SecondState>();
+			_machine.AllTargetStates.Single().ShouldBeOfType<SecondState>();
 		}
 
 		[Fact]

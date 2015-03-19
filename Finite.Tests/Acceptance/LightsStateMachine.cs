@@ -23,8 +23,7 @@ namespace Finite.Tests.Acceptance
 			var machine = new StateMachine<LightsSwitches>(states, switches);
 			machine.ResetTo<LightOff>();
 
-			machine
-				.GetAllTargetStates()
+			machine.AllTargetStates
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull)}, true);
 

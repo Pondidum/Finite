@@ -26,9 +26,9 @@ namespace Finite
 
 		public State<TSwitches> CurrentState { get; private set; }
 
-		public IEnumerable<State<TSwitches>> GetAllTargetStates()
+		public IEnumerable<State<TSwitches>> AllTargetStates
 		{
-			return CurrentState.Links.Select(l => l.Target);
+			get { return CurrentState.Links.Select(l => l.Target); }
 		}
 
 		public void ResetTo<TTarget>() where TTarget : State<TSwitches>
