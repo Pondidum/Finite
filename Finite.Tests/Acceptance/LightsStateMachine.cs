@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Finite.StateProviders;
 using Finite.Tests.Acceptance.States;
 using Shouldly;
 using Xunit;
@@ -11,16 +10,16 @@ namespace Finite.Tests.Acceptance
 		[Fact]
 		public void Configuring_the_machine()
 		{
-			var states = new ManualStateProvider<LightsSwitches>(new[]
+			var allStates = new[]
 			{
 				typeof (LightOff),
 				typeof (LightOnDim),
 				typeof (LightOnFull),
-			});
+			};
 
 			var switches = new LightsSwitches();
 
-			var machine = new StateMachine<LightsSwitches>(states, switches);
+			var machine = new StateMachine<LightsSwitches>(states => states.Are(allStates), switches);
 			
 			machine.ResetTo<LightOff>();
 			machine.CurrentState.ShouldBeOfType<LightOff>();

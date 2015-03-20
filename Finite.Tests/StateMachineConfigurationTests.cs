@@ -1,6 +1,5 @@
 ﻿using System;
 using Finite.Configurations;
-using Finite.StateProviders;
 using Finite.Tests.TestData;
 using NSubstitute;
 using Shouldly;
@@ -19,13 +18,7 @@ namespace Finite.Tests
 				StateChangedHandler = stateChangedHandler
 			};
 
-			var states = new ManualStateProvider<TestArgs>(new[]
-			{
-				typeof(FirstState),
-				typeof(SecondState)
-			});
-
-			var machine = new StateMachine<TestArgs>(configuration, states, new TestArgs());
+			var machine = new StateMachine<TestArgs>(configuration, states => states.Are(typeof(FirstState), typeof(SecondState)), new TestArgs());
 
 			machine.ResetTo<FirstState>();
 

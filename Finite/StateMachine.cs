@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Finite.Configurations;
@@ -7,21 +8,23 @@ namespace Finite
 	public class StateMachine<TSwitches>
 	{
 		private readonly MachineConfiguration<TSwitches> _configuration;
-		private readonly IStateProvider<TSwitches> _stateProvider;
+		private readonly IStateProvider<TSwitches> _states;
 		private readonly TSwitches _switches;
 
-		public StateMachine(IStateProvider<TSwitches> stateProvider, TSwitches switches)
+		public StateMachine(Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
 			: this(null, stateProvider, switches)
 		{
 		}
 
-		public StateMachine(MachineConfiguration<TSwitches> configuration, IStateProvider<TSwitches> stateProvider, TSwitches switches)
+		public StateMachine(MachineConfiguration<TSwitches> configuration, Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
 		{
 			_configuration = configuration ?? new MachineConfiguration<TSwitches>();
-			_stateProvider = stateProvider;
 			_switches = switches;
 
-			_stateProvider.InitialiseStates(_configuration.InstanceCreator);
+			var states = stateProvider.Invoke(new States<TSwitches>());
+			states.InitialiseStates(_configuration.InstanceCreator);
+
+			_states = states;
 		}
 
 		public State<TSwitches> CurrentState { get; private set; }
@@ -43,13 +46,13 @@ namespace Finite
 
 		public void ResetTo<TTarget>() where TTarget : State<TSwitches>
 		{
-			CurrentState = _stateProvider.GetStateFor<TTarget>();
+			CurrentState = _states.GetStateFor<TTarget>();
 		}
 
 		public void TransitionTo<TTarget>() where TTarget : State<TSwitches>
 		{
 			var type = typeof(TTarget);
-			var targetState = _stateProvider.GetStateFor<TTarget>();
+			var targetState = _states.GetStateFor<TTarget>();
 
 			if (CurrentState == null)
 			{
