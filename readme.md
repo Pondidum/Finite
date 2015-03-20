@@ -59,22 +59,29 @@ Configure the machine with the states:
 
 The state machine can then be used:
 
-	machine.SetStateTo<LightOff>();
-
+	//reset the state machine to an initial state:
+	machine.ResetTo<LightOff>();
 	machine.CurrentState.ShouldBeOfType<LightOff>();
 
-	machine.GetAllTargetStates().ShouldBe()
-	// prints LightOnFull, LightOnDim
-	foreach (var item in machine.GetAllTargetStates())
-		Console.Writeline(item);
+	//all of the possible transitions
+	machine.AllTargetStates
+		.Select(state => state.GetType())
+		.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull) });
 
-	// prints LightOnFull, LightOnDim
-	args.OnBattery = false;
-	foreach (var item in machine.GetActiveTargetStates())
-		Console.Writeline(item);
+	//all of the states which can currently be transitioned to
+	machine.ActiveTargetStates
+		.Select(state => state.GetType())
+		.ShouldBe(new[] { typeof(LightOnFull) });
 
-	// prints LightOnDim
-	args.OnBattery = true;
-	foreach (var item in machine.GetActiveTargetStates())
-		Console.Writeline(item);
+	//all of the states which can't be currently transitioned to
+	machine.InactiveTargetStates
+		.Select(state => state.GetType())
+		.ShouldBe(new[] { typeof(LightOnDim) });
 
+	//LightOnDim is not a valid transition at the moment:
+	Should.Throw<InvalidTransitionException>(() => machine.TransitionTo<LightOnDim>());
+	machine.CurrentState.ShouldBeOfType<LightOff>();
+
+	//LightOnFull is valid:
+	machine.TransitionTo<LightOnFull>();
+	machine.CurrentState.ShouldBeOfType<LightOnFull>();
