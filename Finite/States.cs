@@ -17,6 +17,8 @@ namespace Finite
 			_states = new Dictionary<Type, State<TSwitches>>();
 		}
 
+		public IEnumerable<Type> KnownTypes { get { return _types; } }
+ 
 		public States<TSwitches> Are(params Type[] states)
 		{
 			_types.AddRange(states);
