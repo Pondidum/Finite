@@ -48,14 +48,14 @@ A class for each of the states to use in your state machine:
 
 Configure the machine with the states:
 
-	var states = new ManualStateProvider<TestArgs>(new Type[]
+	var allStates = new[]
 	{
 		typeof(LightOff),
 		typeof(LightOnDim),
 		typeof(LightOnFull)
-	});
+	};
 
-	var machine = new StateMachine<TestArgs>(states, new TestArgs());
+	var machine = new StateMachine<TestArgs>(states => states.Are(allStates), new TestArgs());
 
 The state machine can then be used:
 
