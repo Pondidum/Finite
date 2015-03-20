@@ -4,7 +4,6 @@
 	{
 		public IInstanceCreator InstanceCreator { get; set; }
 		public IStateChangedHandler<T> StateChangedHandler { get; set; }
-		public IStateProvider<T> StateProvider { get; set; }
 
 		public MachineConfiguration()
 		{

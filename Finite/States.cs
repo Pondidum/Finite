@@ -6,7 +6,7 @@ using Finite.Infrastructure;
 
 namespace Finite
 {
-	public class States<TSwitches> : IStateProvider<TSwitches>
+	public class States<TSwitches>
 	{
 		private readonly List<Type> _types;
 		private readonly IDictionary<Type, State<TSwitches>> _states;

@@ -7,7 +7,7 @@ namespace Finite
 	public abstract class State<T> : IStateConfiguration<T>
 	{
 		private readonly List<Link<T>> _links;
-		private IStateProvider<T> _stateProvider;
+		private States<T> _stateProvider;
 		private Action<IStateConfiguration<T>> _configuration;
 
 		protected State()
@@ -16,7 +16,7 @@ namespace Finite
 			_configuration = config => { };
 		}
 
-		internal void Configure(IStateProvider<T> stateProvider)
+		internal void Configure(States<T> stateProvider)
 		{
 			_stateProvider = stateProvider;
 			_configuration.Invoke(this);

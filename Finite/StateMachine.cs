@@ -8,7 +8,7 @@ namespace Finite
 	public class StateMachine<TSwitches>
 	{
 		private readonly MachineConfiguration<TSwitches> _configuration;
-		private readonly IStateProvider<TSwitches> _states;
+		private readonly States<TSwitches> _states;
 		private readonly TSwitches _switches;
 
 		public StateMachine(Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
