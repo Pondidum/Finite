@@ -1,6 +1,6 @@
 namespace Finite.Tests.Acceptance.States
 {
-	public class LightOnFull : State<LightsSwitches>
+	public class LightOnFull : LightState
 	{
 		public LightOnFull()
 		{

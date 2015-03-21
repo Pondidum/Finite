@@ -1,6 +1,6 @@
 ﻿namespace Finite.Tests.Acceptance.States
 {
-	public class LightOnDim : State<LightsSwitches>
+	public class LightOnDim : LightState
 	{
 		public LightOnDim()
 		{
