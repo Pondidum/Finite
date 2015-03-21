@@ -24,6 +24,12 @@ namespace Finite
 			_types.AddRange(states);
 			return this;
 		}
+
+		public States<TSwitches> Are(IEnumerable<Type> states)
+		{
+			_types.AddRange(states);
+			return this;
+		}
 		
 		public void InitialiseStates(IInstanceCreator instanceCreator)
 		{
