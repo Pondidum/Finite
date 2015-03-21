@@ -11,23 +11,23 @@ namespace Finite
 		private readonly States<TSwitches> _states;
 		private readonly TSwitches _switches;
 
-		public StateMachine(Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
+		public StateMachine(Action<States<TSwitches>> stateProvider, TSwitches switches)
 			: this(null, stateProvider, switches)
 		{
 		}
 
-		public StateMachine(Action<MachineConfiguration<TSwitches>> customiseConfiguration, Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
+		public StateMachine(Action<MachineConfiguration<TSwitches>> customiseConfiguration, Action<States<TSwitches>> buildStates, TSwitches switches)
 		{
 			_switches = switches;
 			_configuration = new MachineConfiguration<TSwitches>();
+			_states = new States<TSwitches>();
 
 			if (customiseConfiguration != null)
 				customiseConfiguration(_configuration);
 
-			var states = stateProvider.Invoke(new States<TSwitches>());
-			states.InitialiseStates(_configuration.InstanceCreator);
-
-			_states = states;
+			buildStates(_states);
+			
+			_states.InitialiseStates(_configuration.InstanceCreator);
 		}
 
 		public State<TSwitches> CurrentState { get; private set; }
