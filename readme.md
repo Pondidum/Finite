@@ -147,3 +147,20 @@ This class can then be used by the state machine:
 		config => config.InstanceCreator = new StructureMapInstanceCreator(container),
 		states => states.Scan(),
 		switches);
+
+## State Transition Notifications
+
+The state machine supports several notification events.  Each state can receive an `OnEnter` and `OnLeave` notification, and the state machine itself supports `OnEnter`, `OnLeave` and `OnReset`.
+
+When `machine.TransitionTo<TState>()` is called, the `OnEnter` and `OnLeave` methods get called, in the following order:
+
+1. Configuration.OnLeave
+2. OldState.OnLeave
+3. NewState.OnEnter
+4. Configuration.OnEnter
+
+When `machine.ResetTo<TState>()` is called, only the `Configuration.OnReset()` method is called.
+
+You can do anything in the handlers you want, but in general the handlers on the individual states are used to trigger behaviour in your application, such as toggling display elements, and the handlers on the configuration are used for logging, auditing, etc of all state changes.
+
+Each handler is passed a `StateChangeEventArgs` object, which contains properties for the switches, previous state and current state.
