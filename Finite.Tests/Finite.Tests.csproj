@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Acceptance\LightsStateMachine.cs" />
     <Compile Include="Acceptance\LightsSwitches.cs" />
+    <Compile Include="StatesTests.cs" />
     <Compile Include="Acceptance\States\LightOnDim.cs" />
     <Compile Include="Acceptance\States\LightOnFull.cs" />
     <Compile Include="Acceptance\States\LightOff.cs" />

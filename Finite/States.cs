@@ -18,19 +18,27 @@ namespace Finite
 		}
 
 		public IEnumerable<Type> KnownTypes { get { return _types; } }
- 
+
 		public States<TSwitches> Are(params Type[] states)
 		{
-			_types.AddRange(states);
-			return this;
+			return Are(states.AsEnumerable());
 		}
 
 		public States<TSwitches> Are(IEnumerable<Type> states)
 		{
-			_types.AddRange(states);
+			states.ForEach(state =>
+			{
+				if (typeof (State<TSwitches>).IsAssignableFrom(state) == false)
+				{
+					throw new InvalidStateException(typeof(TSwitches), state);
+				}
+
+				_types.Add(state);
+			});
+
 			return this;
 		}
-		
+
 		public void InitialiseStates(IInstanceCreator instanceCreator)
 		{
 			_states.AddRange(_types
@@ -51,6 +59,6 @@ namespace Finite
 
 			return _states[stateType];
 		}
- 
+
 	}
 }
