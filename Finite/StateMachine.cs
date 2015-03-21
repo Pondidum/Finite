@@ -16,10 +16,13 @@ namespace Finite
 		{
 		}
 
-		public StateMachine(MachineConfiguration<TSwitches> configuration, Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
+		public StateMachine(Action<MachineConfiguration<TSwitches>> customiseConfiguration, Func<States<TSwitches>, States<TSwitches>> stateProvider, TSwitches switches)
 		{
-			_configuration = configuration ?? new MachineConfiguration<TSwitches>();
 			_switches = switches;
+			_configuration = new MachineConfiguration<TSwitches>();
+
+			if (customiseConfiguration != null)
+				customiseConfiguration(_configuration);
 
 			var states = stateProvider.Invoke(new States<TSwitches>());
 			states.InitialiseStates(_configuration.InstanceCreator);

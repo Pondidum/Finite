@@ -13,12 +13,11 @@ namespace Finite.Tests
 		public void When_changing_state_onEnter_and_onLeave_should_be_called()
 		{
 			var stateChangedHandler = Substitute.For<IStateChangedHandler<TestArgs>>();
-			var configuration = new MachineConfiguration<TestArgs>
-			{
-				StateChangedHandler = stateChangedHandler
-			};
 
-			var machine = new StateMachine<TestArgs>(configuration, states => states.Are(typeof(FirstState), typeof(SecondState)), new TestArgs());
+			var machine = new StateMachine<TestArgs>(
+				config => config.StateChangedHandler = stateChangedHandler, 
+				states => states.Are(typeof(FirstState), typeof(SecondState)),
+				new TestArgs());
 
 			machine.ResetTo<FirstState>();
 
