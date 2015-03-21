@@ -9,5 +9,9 @@
 		public void OnEnterState(object sender, StateChangeEventArgs<T> stateChangeArgs)
 		{
 		}
+
+		public void OnResetState(object sender, StateChangeEventArgs<T> stateChangeArgs)
+		{
+		}
 	}
 }

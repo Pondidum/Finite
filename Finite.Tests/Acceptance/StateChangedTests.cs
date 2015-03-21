@@ -28,27 +28,32 @@ namespace Finite.Tests.Acceptance
 				new LightsSwitches());
 
 			machine.ResetTo<LightOff>();
-
 			machine.TransitionTo<LightOnFull>();
 
-			_log.ShouldSatisfyAllConditions(
-				() => _log[0].Name.ShouldBe("Config.OnLeave"),
-				() => _log[1].Name.ShouldBe("State.OnLeave"),
-				() => _log[2].Name.ShouldBe("State.OnEnter"),
-				() => _log[3].Name.ShouldBe("Config.OnEnter")
-			);
 		}
 
 		[Fact]
-		public void There_are_4_notifications_raised()
+		public void There_are_the_correct_number_of_notifications_raised()
 		{
-			_log.Count.ShouldBe(4);
+			_log.Count.ShouldBe(5);
+		}
+
+		[Fact]
+		public void The_initial_notification_is_reset()
+		{
+			var init = _log[0];
+
+			init.ShouldSatisfyAllConditions(
+				() => init.Name.ShouldBe("Config.OnReset"),
+				() => init.Previous.ShouldBe(null),
+				() => init.Next.ShouldBeOfType<LightOff>()
+			);
 		}
 
 		[Fact]
 		public void First_notification_is_config_leave()
 		{
-			var first = _log[0];
+			var first = _log[1];
 
 			first.ShouldSatisfyAllConditions(
 				() => first.Name.ShouldBe("Config.OnLeave"),
@@ -61,7 +66,7 @@ namespace Finite.Tests.Acceptance
 		[Fact]
 		public void Second_notification_is_state_leave()
 		{
-			var second = _log[1];
+			var second = _log[2];
 
 			second.ShouldSatisfyAllConditions(
 				() => second.Name.ShouldBe("State.OnLeave"),
@@ -73,7 +78,7 @@ namespace Finite.Tests.Acceptance
 		[Fact]
 		public void Third_notification_is_state_enter()
 		{
-			var third = _log[2];
+			var third = _log[3];
 
 			third.ShouldSatisfyAllConditions(
 				() => third.Name.ShouldBe("State.OnEnter"),
@@ -85,7 +90,7 @@ namespace Finite.Tests.Acceptance
 		[Fact]
 		public void Fourth_notification_is_config_enter()
 		{
-			var fourth = _log[3];
+			var fourth = _log[4];
 
 			fourth.ShouldSatisfyAllConditions(
 				() => fourth.Name.ShouldBe("Config.OnEnter"),
@@ -115,6 +120,11 @@ namespace Finite.Tests.Acceptance
 			public LoggingStateChangedHandler(List<LogEntry> log)
 			{
 				_log = log;
+			}
+
+			public void OnResetState(object sender, StateChangeEventArgs<LightsSwitches> stateChangeArgs)
+			{
+				_log.Add(new LogEntry("Config.OnReset", stateChangeArgs.Previous, stateChangeArgs.Next));
 			}
 
 			public void OnEnterState(object sender, StateChangeEventArgs<LightsSwitches> stateChangeArgs)
