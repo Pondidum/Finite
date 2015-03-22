@@ -56,6 +56,7 @@ nugets_pack :pack do |n|
 		m.description = 'A simple Finite State Machine library'
 		m.authors = 'Andy Dote'
 		m.project_url = 'https://github.com/pondidum/Finite'
+    m.license_url = 'https://github.com/Pondidum/Finite/blob/master/LICENSE.txt'
 		m.version = project_version
 		m.tags = 'statemachine fsm graph'
 	end
