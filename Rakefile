@@ -47,6 +47,7 @@ nugets_pack :pack do |n|
 
   FileUtils.mkdir_p(package_output) unless Dir.exists?(package_output)
 
+  n.configuration = build_mode
   n.exe = tool_nuget
   n.out = package_output
 
