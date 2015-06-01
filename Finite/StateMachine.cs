@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Finite.Configurations;
+using Finite.Renderers;
 
 namespace Finite
 {
@@ -79,6 +80,11 @@ namespace Finite
 			CurrentState = targetState;
 
 			OnEnterState(stateChangeArgs);
+		}
+
+		public void Render(IMachineRenderer<TSwitches> renderer)
+		{
+			renderer.Render(_states);
 		}
 
 		private void OnEnterState(StateChangeEventArgs<TSwitches> stateChangeArgs)

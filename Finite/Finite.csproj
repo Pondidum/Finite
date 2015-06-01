@@ -47,6 +47,7 @@
     <Compile Include="ILinkConfigurationExpression.cs" />
     <Compile Include="InvalidStateException.cs" />
     <Compile Include="IStateConfiguration.cs" />
+    <Compile Include="Renderers\IMachineRenderer.cs" />
     <Compile Include="StateChangeEventArgs.cs" />
     <Compile Include="StateMachineException.cs" />
     <Compile Include="States.cs" />
