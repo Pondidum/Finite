@@ -60,5 +60,10 @@ namespace Finite
 			return _states[stateType];
 		}
 
+		public IEnumerable<State<TSwitches>> AsEnumerable()
+		{
+			return _states.Values.ToList();
+		}
+
 	}
 }
