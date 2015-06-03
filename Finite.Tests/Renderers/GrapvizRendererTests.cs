@@ -21,8 +21,8 @@ namespace Finite.Tests.Renderers
 			var switches = new LightsSwitches();
 			var machine = new StateMachine<LightsSwitches>(states => states.Are(allStates), switches);
 
-			var renderer = new GraphvizRenderer<LightsSwitches>();
-			machine.Render(renderer);
+			var renderer = new GraphvizRenderer();
+			renderer.Render(machine);
 
 			Console.Write(renderer.Output);
 		}

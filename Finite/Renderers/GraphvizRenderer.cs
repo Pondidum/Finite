@@ -1,10 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.Text;
 
 namespace Finite.Renderers
 {
-	public class GraphvizRenderer<TSwitches> : IMachineRenderer<TSwitches>
+	public class GraphvizRenderer
 	{
 		private readonly StringBuilder _sb;
 
@@ -15,13 +13,13 @@ namespace Finite.Renderers
 
 		public string Output { get { return _sb.ToString(); } }
 
-		public void Render(States<TSwitches> states)
+		public void Render<TSwitches>(StateMachine<TSwitches> machine)
 		{
 			_sb.Clear();
 
 			_sb.AppendLine("digraph {");
 
-			foreach (var state in states.AsEnumerable())
+			foreach (var state in machine.States)
 			{
 				var fromName = state.GetType().Name;
 

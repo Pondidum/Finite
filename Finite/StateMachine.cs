@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Finite.Configurations;
-using Finite.Renderers;
 
 namespace Finite
 {
@@ -32,6 +31,12 @@ namespace Finite
 		}
 
 		public State<TSwitches> CurrentState { get; private set; }
+
+
+		public IEnumerable<State<TSwitches>> States
+		{
+			get { return _states.AsEnumerable(); }
+		}
 
 		public IEnumerable<State<TSwitches>> AllTargetStates
 		{
@@ -80,11 +85,6 @@ namespace Finite
 			CurrentState = targetState;
 
 			OnEnterState(stateChangeArgs);
-		}
-
-		public void Render(IMachineRenderer<TSwitches> renderer)
-		{
-			renderer.Render(_states);
 		}
 
 		private void OnEnterState(StateChangeEventArgs<TSwitches> stateChangeArgs)
