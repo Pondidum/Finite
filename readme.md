@@ -6,13 +6,16 @@ A simple finite state machine written in C#
 
 Declare a state arg object which is used to control available state transitions:
 
+```c#
 	public class StateArgs
 	{
 		public boolean OnBattery { get; set; }
 	}
+```
 
 A class for each of the states to use in your state machine:
 
+```c#
 	public class LightOff : State<StateArgs>
 	{
 		public LightOff()
@@ -45,9 +48,11 @@ A class for each of the states to use in your state machine:
 			});
 		}
 	}
+```
 
 Configure the machine with the states:
 
+```c#
 	var allStates = new[]
 	{
 		typeof(LightOff),
@@ -58,9 +63,11 @@ Configure the machine with the states:
 	var machine = new StateMachine<LightSwitches>(
 		states => states.Are(allStates),
 		new LightSwitches());
+```
 
 The state machine can then be used:
 
+```c#
 	//reset the state machine to an initial state:
 	machine.ResetTo<LightOff>();
 	machine.CurrentState.ShouldBeOfType<LightOff>();
@@ -87,25 +94,31 @@ The state machine can then be used:
 	//LightOnFull is valid:
 	machine.TransitionTo<LightOnFull>();
 	machine.CurrentState.ShouldBeOfType<LightOnFull>();
+```
 
 ## State Discovery
 
 There are a couple of ways of adding states to the state machine.  The first seen in the previous examples is to specify them by an array (or `IEnumerable<Type>`):
 
+```c#
 	var machine = new StateMachine<LightSwitches>(
 		states => states.Are(typeof(LightOff), typeof(LightOnFull)),
 		switches);
+```
 
 This method is fine if you have just few states to specify, but when you get into larger state machines, it can become unweildy.
 
 The alternate built in way is to use the `.Scan()` method, which will look for all States in the assembly which can be used by your state machine (in this example, anything inheriting `State<LightSwitches>`):
 
+```c#
 	var machine = new StateMachine<LightSwitches>(
 		states => states.Scan(),
 		switches);
+```
 
 You can write your own extensions to this by writing extension methods for `State<>`.  In fact, `Scan()` is implemented as an extension method itself:
 
+```c#
 	public static States<TSwitches> Scan<TSwitches>(this States<TSwitches> states)
 	{
 		var types = typeof(TSwitches)
@@ -119,6 +132,7 @@ You can write your own extensions to this by writing extension methods for `Stat
 
 		return states;
 	}
+```
 
 ## State Creation
 
@@ -126,6 +140,7 @@ The state machine creates on instance of each state.  By default it does this by
 
 You can replace this behavious with one which uses your DI Container of choice very easily.  For example (using StructureMap):
 
+```c#
 	public class StructureMapInstanceCreator : IInstanceCreator
 	{
 		private readonly IContainer _container;
@@ -140,13 +155,16 @@ You can replace this behavious with one which uses your DI Container of choice v
 			return (State<T>) _container.GetInstance(type);
 		}
 	}
+```
 
 This class can then be used by the state machine:
 
+```c#
 	var machine = new StateMachine<LightSwitches>(
 		config => config.InstanceCreator = new StructureMapInstanceCreator(container),
 		states => states.Scan(),
 		switches);
+```
 
 ## State Transition Notifications
 
