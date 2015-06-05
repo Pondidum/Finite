@@ -2,13 +2,25 @@
 {
 	public class MachineConfiguration<T>
 	{
-		public IInstanceCreator InstanceCreator { get; set; }
-		public IStateChangedHandler<T> StateChangedHandler { get; set; }
+		public IInstanceCreator InstanceCreator { get; private set; }
+		public IStateChangedHandler<T> StateChangedHandler { get; private set; }
 
 		public MachineConfiguration()
 		{
-			InstanceCreator = new DefaultInstanceCreator();
-			StateChangedHandler = new DefaultStateChangedHandler<T>();
+			CreateInstancesWith(new DefaultInstanceCreator());
+			OnStateChange(new DefaultStateChangedHandler<T>());
+		}
+
+		public MachineConfiguration<T> CreateInstancesWith(IInstanceCreator instanceCreator)
+		{
+			InstanceCreator = instanceCreator;
+			return this;
+		}
+
+		public MachineConfiguration<T> OnStateChange(IStateChangedHandler<T> handler)
+		{
+			StateChangedHandler = handler;
+			return this;
 		}
 	}
 }

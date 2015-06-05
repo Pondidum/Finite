@@ -18,9 +18,9 @@ namespace Finite.Tests.Acceptance
 		{
 			_log = new List<LogEntry>();
 
-			var config = new MachineConfiguration<LightsSwitches>();
-			config.StateChangedHandler = new LoggingStateChangedHandler(_log);
-			config.InstanceCreator = new CustomInstanceCreator(_log);
+			var config = new MachineConfiguration<LightsSwitches>()
+				.OnStateChange(new LoggingStateChangedHandler(_log))
+				.CreateInstancesWith(new CustomInstanceCreator(_log));
 
 			var machine = new StateMachine<LightsSwitches>(
 				config,
