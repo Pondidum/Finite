@@ -28,7 +28,7 @@ namespace Finite
 		{
 			states.ForEach(state =>
 			{
-				if (typeof (State<TSwitches>).IsAssignableFrom(state) == false)
+				if (typeof(State<TSwitches>).IsAssignableFrom(state) == false)
 				{
 					throw new InvalidStateException(typeof(TSwitches), state);
 				}
@@ -50,8 +50,11 @@ namespace Finite
 
 		public State<TSwitches> GetStateFor<TState>()
 		{
-			var stateType = typeof(TState);
+			return GetStateFor(typeof(TState));
+		}
 
+		public State<TSwitches> GetStateFor(Type stateType)
+		{
 			if (_states.ContainsKey(stateType) == false)
 			{
 				throw new UnknownStateException(stateType);

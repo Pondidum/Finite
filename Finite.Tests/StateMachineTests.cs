@@ -60,5 +60,12 @@ namespace Finite.Tests
 		{
 			Should.Throw<UnknownStateException>(() => _machine.TransitionTo<FifthState>());
 		}
+
+		[Fact]
+		public void When_resetting_with_a_type()
+		{
+			var type = typeof(object);
+			Should.Throw<UnknownStateException>(() => _machine.ResetTo(type));
+		}
 	}
 }

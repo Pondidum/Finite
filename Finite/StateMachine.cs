@@ -55,7 +55,12 @@ namespace Finite
 
 		public void ResetTo<TTarget>() where TTarget : State<TSwitches>
 		{
-			var targetState = _states.GetStateFor<TTarget>();
+			ResetTo(typeof(TTarget));
+		}
+
+		public void ResetTo(Type target)
+		{
+			var targetState = _states.GetStateFor(target);
 			var stateChangeArgs = new StateChangeEventArgs<TSwitches>(_switches, CurrentState, targetState);
 
 			CurrentState = targetState;
