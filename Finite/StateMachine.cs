@@ -70,8 +70,12 @@ namespace Finite
 
 		public void TransitionTo<TTarget>() where TTarget : State<TSwitches>
 		{
-			var type = typeof(TTarget);
-			var targetState = _states.GetStateFor<TTarget>();
+			TransitionTo(typeof(TTarget));
+		}
+
+		public void TransitionTo(Type target)
+		{
+			var targetState = _states.GetStateFor(target);
 
 			if (CurrentState == null)
 			{
@@ -80,7 +84,7 @@ namespace Finite
 
 			if (CurrentState.CanTransitionTo(_switches, targetState) == false)
 			{
-				throw new InvalidTransitionException(CurrentState.GetType(), type);
+				throw new InvalidTransitionException(CurrentState.GetType(), target);
 			}
 
 			var stateChangeArgs = new StateChangeEventArgs<TSwitches>(_switches, CurrentState, targetState);

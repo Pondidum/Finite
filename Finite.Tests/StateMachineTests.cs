@@ -67,5 +67,12 @@ namespace Finite.Tests
 			var type = typeof(object);
 			Should.Throw<UnknownStateException>(() => _machine.ResetTo(type));
 		}
+
+		[Fact]
+		public void When_transitioning_to_a_type()
+		{
+			var type = typeof(object);
+			Should.Throw<UnknownStateException>(() => _machine.TransitionTo(type));
+		}
 	}
 }
