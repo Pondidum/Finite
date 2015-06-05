@@ -16,14 +16,11 @@ namespace Finite
 		{
 		}
 
-		public StateMachine(Action<MachineConfiguration<TSwitches>> customiseConfiguration, Action<States<TSwitches>> buildStates, TSwitches switches)
+		public StateMachine(MachineConfiguration<TSwitches> configuration, Action<States<TSwitches>> buildStates, TSwitches switches)
 		{
 			_switches = switches;
-			_configuration = new MachineConfiguration<TSwitches>();
+			_configuration = configuration ??  new MachineConfiguration<TSwitches>();
 			_states = new States<TSwitches>();
-
-			if (customiseConfiguration != null)
-				customiseConfiguration(_configuration);
 
 			buildStates(_states);
 			

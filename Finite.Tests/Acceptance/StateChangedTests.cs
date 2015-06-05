@@ -18,12 +18,12 @@ namespace Finite.Tests.Acceptance
 		{
 			_log = new List<LogEntry>();
 
+			var config = new MachineConfiguration<LightsSwitches>();
+			config.StateChangedHandler = new LoggingStateChangedHandler(_log);
+			config.InstanceCreator = new CustomInstanceCreator(_log);
+
 			var machine = new StateMachine<LightsSwitches>(
-				config =>
-				{
-					config.StateChangedHandler = new LoggingStateChangedHandler(_log);
-					config.InstanceCreator = new CustomInstanceCreator(_log);
-				},
+				config,
 				states => states.Scan(),
 				new LightsSwitches());
 
