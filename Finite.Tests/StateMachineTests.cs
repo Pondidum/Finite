@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Linq;
 using System.Security.Policy;
 using Finite.Configurations;
+using Finite.StateProviders;
 using Finite.Tests.TestData;
 using Shouldly;
 using Xunit;
@@ -15,15 +16,15 @@ namespace Finite.Tests
 
 		public StateMachineTests()
 		{
-			var allStates = new[]
+			var allStates = new State<TestArgs>[]
 			{
-				typeof(FirstState),
-				typeof(SecondState),
-				typeof(ThirdState),
-				typeof(FourthState)
+				new FirstState(),
+				new SecondState(),
+				new ThirdState(),
+				new FourthState()
 			};
 
-			_machine = new StateMachine<TestArgs>(states => states.Are(allStates), new TestArgs());
+			_machine = new StateMachine<TestArgs>(new ManualStateProvider<TestArgs>(allStates), new TestArgs());
 		}
 
 		[Fact]

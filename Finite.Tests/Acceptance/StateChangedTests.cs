@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Finite.Configurations;
+using Finite.StateProviders;
 using Finite.Tests.Acceptance.States;
 using Finite.Tests.TestData;
 using NSubstitute;
@@ -24,7 +25,7 @@ namespace Finite.Tests.Acceptance
 
 			var machine = new StateMachine<LightsSwitches>(
 				config,
-				states => states.Scan(),
+				new ScanningStateProvider<LightsSwitches>(), 
 				new LightsSwitches());
 
 			machine.ResetTo<LightOff>();

@@ -8,44 +8,16 @@ namespace Finite
 {
 	public class States<TSwitches>
 	{
-		private readonly List<Type> _types;
 		private readonly IDictionary<Type, State<TSwitches>> _states;
 
-		public States()
+		public States(IEnumerable<State<TSwitches>> states)
 		{
-			_types = new List<Type>();
-			_states = new Dictionary<Type, State<TSwitches>>();
+			_states = states.ToDictionary(s => s.GetType(), s => s);
 		}
 
-		public IEnumerable<Type> KnownTypes { get { return _types; } }
-
-		public States<TSwitches> Are(params Type[] states)
+		public void InitialiseStates()
 		{
-			return Are(states.AsEnumerable());
-		}
-
-		public States<TSwitches> Are(IEnumerable<Type> states)
-		{
-			states.ForEach(state =>
-			{
-				if (typeof(State<TSwitches>).IsAssignableFrom(state) == false)
-				{
-					throw new InvalidStateException(typeof(TSwitches), state);
-				}
-
-				_types.Add(state);
-			});
-
-			return this;
-		}
-
-		public void InitialiseStates(IInstanceCreator instanceCreator)
-		{
-			_states.AddRange(_types
-				.Where(t => typeof(State<TSwitches>).IsAssignableFrom(t))
-				.ToDictionary(t => t, instanceCreator.Create<TSwitches>));
-
-			_states.ForEach(i => i.Value.Configure(this));
+			_states.Values.ForEach(state => state.Configure(this));
 		}
 
 		public State<TSwitches> GetStateFor<TState>()

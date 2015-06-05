@@ -53,7 +53,6 @@
     <Compile Include="Acceptance\StateChangedTests.cs" />
     <Compile Include="Acceptance\States\LightState.cs" />
     <Compile Include="Renderers\GrapvizRendererTests.cs" />
-    <Compile Include="StatesTests.cs" />
     <Compile Include="Acceptance\States\LightOnDim.cs" />
     <Compile Include="Acceptance\States\LightOnFull.cs" />
     <Compile Include="Acceptance\States\LightOff.cs" />
