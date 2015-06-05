@@ -20,12 +20,11 @@ namespace Finite.Tests.Acceptance
 			_log = new List<LogEntry>();
 
 			var config = new MachineConfiguration<LightsSwitches>()
-				.OnStateChange(new LoggingStateChangedHandler(_log))
-				.CreateInstancesWith(new CustomInstanceCreator(_log));
+				.OnStateChange(new LoggingStateChangedHandler(_log));
 
 			var machine = new StateMachine<LightsSwitches>(
 				config,
-				new ScanningStateProvider<LightsSwitches>(), 
+				new ScanningStateProvider<LightsSwitches>(new CustomInstanceCreator(_log)),
 				new LightsSwitches());
 
 			machine.ResetTo<LightOff>();
@@ -44,11 +43,9 @@ namespace Finite.Tests.Acceptance
 		{
 			var init = _log[0];
 
-			init.ShouldSatisfyAllConditions(
-				() => init.Name.ShouldBe("Config.OnReset"),
-				() => init.Previous.ShouldBe(null),
-				() => init.Next.ShouldBeOfType<LightOff>()
-			);
+			init.Name.ShouldBe("Config.OnReset");
+			init.Previous.ShouldBe(null);
+			init.Next.ShouldBeOfType<LightOff>();
 		}
 
 		[Fact]
@@ -56,12 +53,9 @@ namespace Finite.Tests.Acceptance
 		{
 			var first = _log[1];
 
-			first.ShouldSatisfyAllConditions(
-				() => first.Name.ShouldBe("Config.OnLeave"),
-				() => first.Previous.ShouldBeOfType<LightOff>(),
-				() => first.Next.ShouldBeOfType<LightOnFull>()
-			);
-
+			first.Name.ShouldBe("Config.OnLeave");
+			first.Previous.ShouldBeOfType<LightOff>();
+			first.Next.ShouldBeOfType<LightOnFull>();
 		}
 
 		[Fact]
@@ -69,11 +63,9 @@ namespace Finite.Tests.Acceptance
 		{
 			var second = _log[2];
 
-			second.ShouldSatisfyAllConditions(
-				() => second.Name.ShouldBe("State.OnLeave"),
-				() => second.Previous.ShouldBeOfType<LightOff>(),
-				() => second.Next.ShouldBeOfType<LightOnFull>()
-			);
+			second.Name.ShouldBe("State.OnLeave");
+			second.Previous.ShouldBeOfType<LightOff>();
+			second.Next.ShouldBeOfType<LightOnFull>();
 		}
 
 		[Fact]
@@ -81,11 +73,9 @@ namespace Finite.Tests.Acceptance
 		{
 			var third = _log[3];
 
-			third.ShouldSatisfyAllConditions(
-				() => third.Name.ShouldBe("State.OnEnter"),
-				() => third.Previous.ShouldBeOfType<LightOff>(),
-				() => third.Next.ShouldBeOfType<LightOnFull>()
-			);
+			third.Name.ShouldBe("State.OnEnter");
+			third.Previous.ShouldBeOfType<LightOff>();
+			third.Next.ShouldBeOfType<LightOnFull>();
 		}
 
 		[Fact]
@@ -93,11 +83,9 @@ namespace Finite.Tests.Acceptance
 		{
 			var fourth = _log[4];
 
-			fourth.ShouldSatisfyAllConditions(
-				() => fourth.Name.ShouldBe("Config.OnEnter"),
-				() => fourth.Previous.ShouldBeOfType<LightOff>(),
-				() => fourth.Next.ShouldBeOfType<LightOnFull>()
-			);
+			fourth.Name.ShouldBe("Config.OnEnter");
+			fourth.Previous.ShouldBeOfType<LightOff>();
+			fourth.Next.ShouldBeOfType<LightOnFull>();
 		}
 
 		private class LogEntry
