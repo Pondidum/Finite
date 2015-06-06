@@ -2,12 +2,13 @@ require 'bundler/setup'
 require 'albacore'
 
 ci_build = ENV['APPVEYOR_BUILD_VERSION'] ||= "0"
+ci_commit = ENV['APPVEYOR_REPO_COMMIT'] ||= "0"
 
 tool_nuget = 'tools/nuget/nuget.exe'
 tool_xunit = 'tools/xunit/xunit.console.clr4.exe'
 
 project_name = 'Finite'
-project_version = "1.0.#{ci_build}"
+project_version = "2.0.0"
 
 project_output = 'build/bin'
 package_output = 'build/deploy'
@@ -25,7 +26,8 @@ asmver :version do |v|
 
   v.file_path = "#{project_name}/Properties/AssemblyVersion.cs"
   v.attributes assembly_version: project_version,
-         assembly_file_version: project_version
+               assembly_file_version: project_version,
+               assembly_description: "Build: #{ci_build}, Commit Sha: #{ci_commit}"
 end
 
 desc 'Compile all projects'
