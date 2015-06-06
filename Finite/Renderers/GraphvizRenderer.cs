@@ -27,7 +27,7 @@ namespace Finite.Renderers
 				{
 					var toName = link.Target.GetType().Name;
 
-					_sb.AppendFormat("\t{0} -> {1};\n", fromName, toName);
+					_sb.AppendFormat("\t{0} -> {1};", fromName, toName).AppendLine();
 
 				}
 			}
