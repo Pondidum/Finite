@@ -31,11 +31,11 @@ namespace Finite
 			_linkConfigurations.Add(config);
 		}
 
-		internal void Configure(States<T> stateProvider)
+		internal void Configure(StateRespository<T> stateRepository)
 		{
 			foreach (var config in _linkConfigurations)
 			{
-				var target = stateProvider.GetStateFor(config.TargetState);
+				var target = stateRepository.GetStateFor(config.TargetState);
 
 				_links.Add(new Link<T>(target, config.Condition));
 			}

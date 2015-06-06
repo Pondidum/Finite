@@ -53,7 +53,7 @@
     <Compile Include="StateMachineException.cs" />
     <Compile Include="StateProviders\ManualStateProvider.cs" />
     <Compile Include="StateProviders\ScanningStateProvider.cs" />
-    <Compile Include="States.cs" />
+    <Compile Include="StateRespository.cs" />
     <Compile Include="UnknownStateException.cs" />
     <Compile Include="InvalidTransitionException.cs" />
     <Compile Include="Link.cs" />

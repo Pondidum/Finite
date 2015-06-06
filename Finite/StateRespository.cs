@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Finite.Configurations;
 using Finite.Infrastructure;
 
 namespace Finite
 {
-	public class States<TSwitches>
+	public class StateRespository<TSwitches>
 	{
 		private readonly IDictionary<Type, State<TSwitches>> _states;
 
-		public States(IEnumerable<State<TSwitches>> states)
+		public StateRespository(IEnumerable<State<TSwitches>> states)
 		{
 			_states = states.ToDictionary(s => s.GetType(), s => s);
 		}

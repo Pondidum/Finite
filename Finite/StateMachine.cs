@@ -8,7 +8,7 @@ namespace Finite
 	public class StateMachine<TSwitches>
 	{
 		private readonly MachineConfiguration<TSwitches> _configuration;
-		private readonly States<TSwitches> _states;
+		private readonly StateRespository<TSwitches> _states;
 		private readonly TSwitches _switches;
 
 		public StateMachine(IStateProvider<TSwitches> stateProvider, TSwitches switches)
@@ -20,7 +20,7 @@ namespace Finite
 		{
 			_switches = switches;
 			_configuration = configuration ??  new MachineConfiguration<TSwitches>();
-			_states = new States<TSwitches>(stateProvider.Execute());
+			_states = new StateRespository<TSwitches>(stateProvider.Execute());
 
 			_states.InitialiseStates();
 		}
