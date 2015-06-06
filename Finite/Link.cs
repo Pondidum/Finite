@@ -2,27 +2,21 @@ using System;
 
 namespace Finite
 {
-	public class Link<T> : ILinkConfigurationExpression<T>
+	public class Link<T>
 	{
-		private Func<T, bool> _condition;
+		private readonly Func<T, bool> _condition;
 
-		public State<T> Target { get; private set; }
-
-		public Link(State<T> type)
+		public Link(State<T> type, Func<T, bool> condition)
 		{
 			Target = type;
-			_condition = x => true;		//no When specified, assume active
+			_condition = condition;
 		}
+
+		public State<T> Target { get; private set; }
 
 		public bool IsActive(T switches)
 		{
 			return _condition.Invoke(switches);
 		}
-
-		void ILinkConfigurationExpression<T>.When(Func<T, bool> condition)
-		{
-			_condition = condition;
-		}
-
 	}
 }

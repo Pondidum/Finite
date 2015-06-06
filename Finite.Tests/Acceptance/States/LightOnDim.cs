@@ -4,11 +4,8 @@
 	{
 		public LightOnDim()
 		{
-			Configure(state =>
-			{
-				state.LinkTo<LightOnFull>().When(l => l.OnBattery == false);
-				state.LinkTo<LightOff>();
-			});
+			LinkTo<LightOnFull>(l => l.OnBattery == false);
+			LinkTo<LightOff>();
 		}
 	}
 }

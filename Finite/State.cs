@@ -4,37 +4,48 @@ using System.Linq;
 
 namespace Finite
 {
-	public abstract class State<T> : IStateConfiguration<T>
+
+	public class StateConfiguration<TSwitches>
+	{
+		public Type TargetState { get; set; }
+		public Func<TSwitches, bool> Condition { get; set; }
+	}
+
+	public abstract class State<T>
 	{
 		private readonly List<Link<T>> _links;
-		private States<T> _stateProvider;
-		private Action<IStateConfiguration<T>> _configuration;
+		private readonly List<StateConfiguration<T>> _linkConfigurations;
 
 		protected State()
 		{
 			_links = new List<Link<T>>();
-			_configuration = config => { };
+			_linkConfigurations = new List<StateConfiguration<T>>();
+		}
+
+		protected void LinkTo<TTarget>() where TTarget : State<T>
+		{
+			LinkTo<TTarget>(args => true);
+		}
+
+		protected void LinkTo<TTarget>(Func<T, bool> condition) where TTarget : State<T>
+		{
+			var config = new StateConfiguration<T>
+			{
+				TargetState = typeof(TTarget),
+				Condition = condition
+			};
+
+			_linkConfigurations.Add(config);
 		}
 
 		internal void Configure(States<T> stateProvider)
 		{
-			_stateProvider = stateProvider;
-			_configuration.Invoke(this);
-		}
+			foreach (var config in _linkConfigurations)
+			{
+				var target = stateProvider.GetStateFor(config.TargetState);
 
-		protected void Configure(Action<IStateConfiguration<T>> config)
-		{
-			_configuration = config;
-		}
-
-		ILinkConfigurationExpression<T> IStateConfiguration<T>.LinkTo<TTarget>()
-		{
-			var target = _stateProvider.GetStateFor<TTarget>();
-			var options = new Link<T>(target);
-
-			_links.Add(options);
-
-			return options;
+				_links.Add(new Link<T>(target, config.Condition));
+			}
 		}
 
 		public IEnumerable<Link<T>> Links

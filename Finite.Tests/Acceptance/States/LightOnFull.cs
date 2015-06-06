@@ -4,11 +4,8 @@ namespace Finite.Tests.Acceptance.States
 	{
 		public LightOnFull()
 		{
-			Configure(state =>
-			{
-				state.LinkTo<LightOnDim>().When(l => l.OnBattery);
-				state.LinkTo<LightOff>();
-			});
+			LinkTo<LightOnDim>(l => l.OnBattery);
+			LinkTo<LightOff>();
 		}
 	}
 }
