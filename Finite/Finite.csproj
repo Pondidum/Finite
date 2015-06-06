@@ -48,6 +48,7 @@
     <Compile Include="InvalidStateException.cs" />
     <Compile Include="IStateConfiguration.cs" />
     <Compile Include="IStateProvider.cs" />
+    <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Renderers\GraphvizRenderer.cs" />
     <Compile Include="StateChangeEventArgs.cs" />
     <Compile Include="StateMachineException.cs" />
