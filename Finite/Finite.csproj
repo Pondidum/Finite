@@ -49,6 +49,7 @@
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Renderers\GraphvizRenderer.cs" />
     <Compile Include="StateChangeEventArgs.cs" />
+    <Compile Include="StateConfiguration.cs" />
     <Compile Include="StateMachineException.cs" />
     <Compile Include="StateProviders\ManualStateProvider.cs" />
     <Compile Include="StateProviders\ScanningStateProvider.cs" />

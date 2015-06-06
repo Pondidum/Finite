@@ -4,13 +4,6 @@ using System.Linq;
 
 namespace Finite
 {
-
-	public class StateConfiguration<TSwitches>
-	{
-		public Type TargetState { get; set; }
-		public Func<TSwitches, bool> Condition { get; set; }
-	}
-
 	public abstract class State<T>
 	{
 		private readonly List<Link<T>> _links;
