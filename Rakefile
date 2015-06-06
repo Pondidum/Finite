@@ -5,7 +5,7 @@ ci_build = ENV['APPVEYOR_BUILD_VERSION'] ||= "0"
 ci_commit = ENV['APPVEYOR_REPO_COMMIT'] ||= "0"
 
 tool_nuget = 'tools/nuget/nuget.exe'
-tool_xunit = 'tools/xunit/xunit.console.clr4.exe'
+tool_xunit = 'tools/xunit/xunit.console.exe'
 
 project_name = 'Finite'
 project_version = "2.0.0"
@@ -41,7 +41,7 @@ desc 'Run all unit test assemblies'
 test_runner :test do |xunit|
   xunit.exe = tool_xunit
   xunit.files = FileList['**/bin/*/*.tests.dll']
-  xunit.add_parameter '/silent'
+  xunit.add_parameter '-quiet'
 end
 
 desc 'Build all nuget packages'
