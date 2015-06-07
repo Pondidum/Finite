@@ -8,7 +8,7 @@ tool_nuget = 'tools/nuget/nuget.exe'
 tool_xunit = 'tools/xunit/xunit.console.exe'
 
 project_name = 'Finite'
-project_version = "3.0.0"
+project_version = File.open('.semver', &:readline).chomp
 
 project_output = 'build/bin'
 package_output = 'build/deploy'
@@ -65,5 +65,58 @@ nugets_pack :pack do |n|
   end
 
 end
+
+namespace :semver do
+
+  def read
+    line = File.open('.semver', &:readline).chomp
+    chunks = line.split "."
+
+    return {
+      :major => chunks[0].to_i,
+      :minor => chunks[1].to_i,
+      :patch => chunks[2].to_i
+    }
+  end
+
+  def write(version)
+    major = version[:major]
+    minor = version[:minor]
+    patch = version[:patch]
+
+    line = "#{major}.#{minor}.#{patch}"
+
+    File.open('.semver', 'w') { |f| f.write(line) }
+  end
+
+  task "major" do
+    version = read
+
+    version[:major] += 1
+    version[:minor] = 0
+    version[:patch] = 0
+
+    write version
+  end
+
+  task "minor" do
+    version = read
+
+    version[:minor] += 1
+    version[:patch] = 0
+
+    write version
+  end
+
+  task "patch" do
+    version = read
+
+    version[:patch] += 1
+
+    write version
+  end
+
+end
+
 
 task :default => [ :restore, :version, :compile, :test ]
