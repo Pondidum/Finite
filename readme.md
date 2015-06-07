@@ -7,93 +7,87 @@ A simple finite state machine written in C#
 Declare a state arg object which is used to control available state transitions:
 
 ```c#
-	public class StateArgs
-	{
-		public boolean OnBattery { get; set; }
-	}
+public class StateArgs
+{
+	public boolean OnBattery { get; set; }
+}
 ```
 
 A class for each of the states to use in your state machine:
 
 ```c#
-	public class LightOff : State<StateArgs>
+public class LightOff : State<StateArgs>
+{
+	public LightOff()
 	{
-		public LightOff()
-		{
-			Configure(state => {
-				state.LinkTo<LightOnFull>().When(l => l.OnBattery == false);
-				state.LinkTo<LightOnDim>().When(l => l.OnBattery);
-			});
-		}
+		LinkTo<LightOnFull>(l => l.OnBattery == false);
+		LinkTo<LightOnDim>(l => l.OnBattery);
 	}
+}
 
-	public class LightOnDim : State<StateArgs>
+public class LightOnDim : State<StateArgs>
+{
+	public LightOnDim()
 	{
-		public LightOnDim()
-		{
-			Configure(state => {
-				state.LinkTo<LightOnFull>().When(l => l.OnBattery == false);
-				state.LinkTo<LightOff>();
-			});
-		}
+		LinkTo<LightOnFull>(l => l.OnBattery == false);
+		LinkTo<LightOff>();
 	}
+}
 
-	public class LightOnFull : State<StateArgs>
+public class LightOnFull : State<StateArgs>
+{
+	public LightOnFull()
 	{
-		public LightOnFull()
-		{
-			Configure(state => {
-				state.LinkTo<LightOnDim>().When(l => l.OnBattery);
-				state.LinkTo<LightOff>();
-			});
-		}
+		LinkTo<LightOnDim>(l => l.OnBattery);
+		LinkTo<LightOff>();
 	}
+}
 ```
 
 Configure the machine with the states:
 
 ```c#
-	var allStates = new[]
-	{
-		typeof(LightOff),
-		typeof(LightOnDim),
-		typeof(LightOnFull)
-	};
+var allStates = new State<LightsSwitches>[]
+{
+	new LightOff(),
+	new LightOnDim(),
+	new LightOnFull(),
+};
 
-	var machine = new StateMachine<LightSwitches>(
-		states => states.Are(allStates),
-		new LightSwitches());
+var machine = new StateMachine<LightSwitches>(
+	new ManualStateProvider<LightsSwitches>(allStates),
+	new LightSwitches());
 ```
 
 The state machine can then be used:
 
 ```c#
-	//reset the state machine to an initial state:
-	machine.ResetTo<LightOff>();
-	machine.CurrentState.ShouldBeOfType<LightOff>();
+//reset the state machine to an initial state:
+machine.ResetTo<LightOff>();
+machine.CurrentState.ShouldBeOfType<LightOff>();
 
-	//all of the possible transitions
-	machine.AllTargetStates
-		.Select(state => state.GetType())
-		.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull) });
+//all of the possible transitions
+machine.AllTargetStates
+	.Select(state => state.GetType())
+	.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull) });
 
-	//all of the states which can currently be transitioned to
-	machine.ActiveTargetStates
-		.Select(state => state.GetType())
-		.ShouldBe(new[] { typeof(LightOnFull) });
+//all of the states which can currently be transitioned to
+machine.ActiveTargetStates
+	.Select(state => state.GetType())
+	.ShouldBe(new[] { typeof(LightOnFull) });
 
-	//all of the states which can't be currently transitioned to
-	machine.InactiveTargetStates
-		.Select(state => state.GetType())
-		.ShouldBe(new[] { typeof(LightOnDim) });
+//all of the states which can't be currently transitioned to
+machine.InactiveTargetStates
+	.Select(state => state.GetType())
+	.ShouldBe(new[] { typeof(LightOnDim) });
 
-	//LightOnDim is not a valid transition at the moment:
-	Should.Throw<InvalidTransitionException>(() => machine.TransitionTo<LightOnDim>());
-	machine.CurrentState.ShouldBeOfType<LightOff>();
+//LightOnDim is not a valid transition at the moment:
+Should.Throw<InvalidTransitionException>(() => machine.TransitionTo<LightOnDim>());
+machine.CurrentState.ShouldBeOfType<LightOff>();
 
-	//LightOnFull is valid:
-	machine.TransitionTo<LightOnFull>();
-	machine.CurrentState.ShouldBeOfType<LightOnFull>();
+//LightOnFull is valid:
+machine.TransitionTo<LightOnFull>();
+machine.CurrentState.ShouldBeOfType<LightOnFull>();
 ```
 
 ## State Discovery
@@ -101,70 +95,35 @@ The state machine can then be used:
 There are a couple of ways of adding states to the state machine.  The first seen in the previous examples is to specify them by an array (or `IEnumerable<Type>`):
 
 ```c#
-	var machine = new StateMachine<LightSwitches>(
-		states => states.Are(typeof(LightOff), typeof(LightOnFull)),
-		switches);
+var allStates = new State<LightsSwitches>[]
+{
+	new LightOff(),
+	new LightOnDim(),
+	new LightOnFull(),
+};
+
+var machine = new StateMachine<LightSwitches>(
+	new ManualStateProvider<LightsSwitches>(allStates),
+	switches);
 ```
 
 This method is fine if you have just few states to specify, but when you get into larger state machines, it can become unweildy.
 
-The alternate built in way is to use the `.Scan()` method, which will look for all States in the assembly which can be used by your state machine (in this example, anything inheriting `State<LightSwitches>`):
+The alternate built in way is to use the `ScanningStateProvider` class, which will look for all States in the assembly which can be used by your state machine (in this example, anything inheriting `State<LightSwitches>`):
 
 ```c#
-	var machine = new StateMachine<LightSwitches>(
-		states => states.Scan(),
-		switches);
+var machine = new StateMachine<LightSwitches>(
+	new ScanningStateProvider<LightSwitches>(),
+	switches);
 ```
 
-You can write your own extensions to this by writing extension methods for `State<>`.  In fact, `Scan()` is implemented as an extension method itself:
+This StateProvider also supports custom state creation, by means of a lambda:
 
 ```c#
-	public static States<TSwitches> Scan<TSwitches>(this States<TSwitches> states)
-	{
-		var types = typeof(TSwitches)
-			.Assembly
-			.GetTypes()
-			.Where(t => t.IsAbstract == false)
-			.Where(t => typeof(State<TSwitches>).IsAssignableFrom(t))
-			.ToArray();
-
-		states.Are(types);
-
-		return states;
-	}
+var stateProvider = new ScanningStateProvider<LightSwitches>(state => (State<LightSwitches>)_container.GetInstance(state));
 ```
 
-## State Creation
-
-The state machine creates on instance of each state.  By default it does this by invoking a public parameterless constrcutor.
-
-You can replace this behavious with one which uses your DI Container of choice very easily.  For example (using StructureMap):
-
-```c#
-	public class StructureMapInstanceCreator : IInstanceCreator
-	{
-		private readonly IContainer _container;
-
-		public StructureMapInstanceCreator(IContainer container)
-		{
-			_container = container;
-		}
-
-		public State<T> Create<T>(Type type)
-		{
-			return (State<T>) _container.GetInstance(type);
-		}
-	}
-```
-
-This class can then be used by the state machine:
-
-```c#
-	var machine = new StateMachine<LightSwitches>(
-		config => config.InstanceCreator = new StructureMapInstanceCreator(container),
-		states => states.Scan(),
-		switches);
-```
+To create your own StateProvider, you just need to implement `IStateProvider<TSwitches>`.  The source for both the `ManualStateProvider` and `ScanningStateProvider` are [viewable here][1].
 
 ## State Transition Notifications
 
@@ -182,3 +141,6 @@ When `machine.ResetTo<TState>()` is called, only the `Configuration.OnReset()` m
 You can do anything in the handlers you want, but in general the handlers on the individual states are used to trigger behaviour in your application, such as toggling display elements, and the handlers on the configuration are used for logging, auditing, etc of all state changes.
 
 Each handler is passed a `StateChangeEventArgs` object, which contains properties for the switches, previous state and current state.
+
+
+[1]: https://github.com/Pondidum/Finite/tree/master/Finite/StateProviders
