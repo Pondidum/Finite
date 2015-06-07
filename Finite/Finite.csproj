@@ -42,8 +42,6 @@
     <Compile Include="Configurations\DefaultStateChangedHandler.cs" />
     <Compile Include="Configurations\IStateChangedHandler.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
-    <Compile Include="Configurations\DefaultInstanceCreator.cs" />
-    <Compile Include="Configurations\IInstanceCreator.cs" />
     <Compile Include="IStateProvider.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Renderers\GraphvizRenderer.cs" />

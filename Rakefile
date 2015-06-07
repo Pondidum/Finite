@@ -8,7 +8,7 @@ tool_nuget = 'tools/nuget/nuget.exe'
 tool_xunit = 'tools/xunit/xunit.console.exe'
 
 project_name = 'Finite'
-project_version = "2.1.0"
+project_version = "3.0.0"
 
 project_output = 'build/bin'
 package_output = 'build/deploy'

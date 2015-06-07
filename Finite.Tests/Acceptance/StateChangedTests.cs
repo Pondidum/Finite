@@ -24,7 +24,7 @@ namespace Finite.Tests.Acceptance
 
 			var machine = new StateMachine<LightsSwitches>(
 				config,
-				new ScanningStateProvider<LightsSwitches>(new CustomInstanceCreator(_log)),
+				new ScanningStateProvider<LightsSwitches>(Create),
 				new LightsSwitches());
 
 			machine.ResetTo<LightOff>();
@@ -88,6 +88,24 @@ namespace Finite.Tests.Acceptance
 			fourth.Next.ShouldBeOfType<LightOnFull>();
 		}
 
+		private State<LightsSwitches> Create(Type type)
+		{
+			var ctor = type.GetConstructor(Type.EmptyTypes);
+
+			if (ctor == null)
+			{
+				throw new MissingMethodException(type.Name, "ctor");
+			}
+
+			var state = (State<LightsSwitches>)ctor.Invoke(null);
+			var ls = state as LightState;
+
+			ls.OnEnterAction = args => _log.Add(new LogEntry("State.OnEnter", args.Previous, args.Next));
+			ls.OnLeaveAction = args => _log.Add(new LogEntry("State.OnLeave", args.Previous, args.Next));
+
+			return state;
+		}
+
 		private class LogEntry
 		{
 			public string Name;
@@ -126,29 +144,6 @@ namespace Finite.Tests.Acceptance
 				_log.Add(new LogEntry("Config.OnLeave", stateChangeArgs.Previous, stateChangeArgs.Next));
 			}
 
-		}
-		private class CustomInstanceCreator : IInstanceCreator
-		{
-			private readonly List<LogEntry> _log;
-			private readonly DefaultInstanceCreator _default;
-
-			public CustomInstanceCreator(List<LogEntry> log)
-			{
-				_log = log;
-				_default = new DefaultInstanceCreator();
-			}
-
-			public State<T> Create<T>(Type type)
-			{
-				var state = _default.Create<T>(type);
-
-				var ls = state as LightState;
-
-				ls.OnEnterAction = args => _log.Add(new LogEntry("State.OnEnter", args.Previous, args.Next));
-				ls.OnLeaveAction = args => _log.Add(new LogEntry("State.OnLeave", args.Previous, args.Next));
-
-				return state;
-			}
 		}
 	}
 }

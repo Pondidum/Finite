@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Finite.Configurations;
 
 namespace Finite.StateProviders
 {
 	public class ScanningStateProvider<TSwitches> : IStateProvider<TSwitches>
 	{
-		private readonly IInstanceCreator _instanceBuilder;
+		private readonly Func<Type, State<TSwitches>> _create;
 		private readonly List<Type> _types;
 
-		public ScanningStateProvider() : this(null)
+		public ScanningStateProvider() : this(Create)
 		{
 		}
 
-		public ScanningStateProvider(IInstanceCreator instanceCreator)
+		public ScanningStateProvider(Func<Type, State<TSwitches>> create)
 		{
-			_instanceBuilder = instanceCreator ?? new DefaultInstanceCreator();
+			_create = create;
 			_types = typeof(TSwitches)
 				.Assembly
 				.GetTypes()
@@ -30,8 +29,20 @@ namespace Finite.StateProviders
 		public IEnumerable<State<TSwitches>> Execute()
 		{
 			return _types
-				.Select(t => _instanceBuilder.Create<TSwitches>(t))
+				.Select(_create)
 				.ToList();
+		}
+
+		private static State<TSwitches> Create(Type type)
+		{
+			var ctor = type.GetConstructor(Type.EmptyTypes);
+
+			if (ctor == null)
+			{
+				throw new MissingMethodException(type.Name, "ctor");
+			}
+
+			return (State<TSwitches>)ctor.Invoke(null);
 		}
 	}
 }
