@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace Finite
 {
@@ -21,7 +22,7 @@ namespace Finite
 			LinkTo<TTarget>(args => true);
 		}
 
-		protected void LinkTo<TTarget>(Func<T, bool> condition) where TTarget : State<T>
+		protected void LinkTo<TTarget>(Expression<Func<T, bool>> condition) where TTarget : State<T>
 		{
 			if (_configured)
 				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
