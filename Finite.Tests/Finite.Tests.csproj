@@ -66,7 +66,7 @@
     <Compile Include="Acceptance\States\LightOff.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateMachineTests.cs" />
-    <Compile Include="StatesExtensionsTests.cs" />
+    <Compile Include="StateProviders\ScanningStateProviderTests.cs" />
     <Compile Include="StateTests.cs" />
     <Compile Include="TestData\FifthState.cs" />
     <Compile Include="TestData\FirstState.cs" />
