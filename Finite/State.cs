@@ -8,6 +8,7 @@ namespace Finite
 	{
 		private readonly List<Link<T>> _links;
 		private readonly List<StateConfiguration<T>> _linkConfigurations;
+		private bool _configured;
 
 		protected State()
 		{
@@ -22,6 +23,9 @@ namespace Finite
 
 		protected void LinkTo<TTarget>(Func<T, bool> condition) where TTarget : State<T>
 		{
+			if (_configured)
+				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
+
 			var config = new StateConfiguration<T>
 			{
 				TargetState = typeof(TTarget),
@@ -39,6 +43,8 @@ namespace Finite
 
 				_links.Add(new Link<T>(target, config.Condition));
 			}
+
+			_configured = true;
 		}
 
 		public IEnumerable<Link<T>> Links
