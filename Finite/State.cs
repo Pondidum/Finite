@@ -38,12 +38,7 @@ namespace Finite
 
 		internal void Configure(StateRespository<T> stateRepository)
 		{
-			foreach (var config in _linkConfigurations)
-			{
-				var target = stateRepository.GetStateFor(config.TargetState);
-
-				_links.Add(new Link<T>(target, config.Condition));
-			}
+			_links.AddRange(_linkConfigurations.Select(config => config.CreateLink(stateRepository)));
 
 			_configured = true;
 		}
