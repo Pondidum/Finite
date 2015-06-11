@@ -27,13 +27,13 @@ namespace Finite
 			if (_configured)
 				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
 
-			var config = new LinkConfiguration<T>
+			var builder = new StandardLinkBuilder<T>
 			{
 				TargetState = typeof(TTarget),
 				Condition = condition
 			};
 
-			_linkBuilders.Add(config);
+			_linkBuilders.Add(builder);
 		}
 
 		internal void Configure(StateRespository<T> stateRepository)
