@@ -8,13 +8,13 @@ namespace Finite
 	public abstract class State<T>
 	{
 		private readonly List<ILink<T>> _links;
-		private readonly List<LinkConfiguration<T>> _linkConfigurations;
+		private readonly List<ILinkBuilder<T>> _linkBuilders;
 		private bool _configured;
 
 		protected State()
 		{
 			_links = new List<ILink<T>>();
-			_linkConfigurations = new List<LinkConfiguration<T>>();
+			_linkBuilders = new List<ILinkBuilder<T>>();
 		}
 
 		protected void LinkTo<TTarget>() where TTarget : State<T>
@@ -33,12 +33,12 @@ namespace Finite
 				Condition = condition
 			};
 
-			_linkConfigurations.Add(config);
+			_linkBuilders.Add(config);
 		}
 
 		internal void Configure(StateRespository<T> stateRepository)
 		{
-			_links.AddRange(_linkConfigurations.Select(config => config.CreateLink(stateRepository)));
+			_links.AddRange(_linkBuilders.Select(config => config.CreateLink(stateRepository)));
 
 			_configured = true;
 		}

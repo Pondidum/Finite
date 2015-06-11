@@ -42,6 +42,7 @@
     <Compile Include="Configurations\DefaultStateChangedHandler.cs" />
     <Compile Include="Configurations\IStateChangedHandler.cs" />
     <Compile Include="ILink.cs" />
+    <Compile Include="ILinkBuilder.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="IStateProvider.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
