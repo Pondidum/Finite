@@ -7,13 +7,13 @@ namespace Finite
 {
 	public abstract class State<T>
 	{
-		private readonly List<Link<T>> _links;
+		private readonly List<ILink<T>> _links;
 		private readonly List<StateConfiguration<T>> _linkConfigurations;
 		private bool _configured;
 
 		protected State()
 		{
-			_links = new List<Link<T>>();
+			_links = new List<ILink<T>>();
 			_linkConfigurations = new List<StateConfiguration<T>>();
 		}
 
@@ -48,7 +48,7 @@ namespace Finite
 			_configured = true;
 		}
 
-		public IEnumerable<Link<T>> Links
+		public IEnumerable<ILink<T>> Links
 		{
 			get { return _links.AsEnumerable(); }
 		}

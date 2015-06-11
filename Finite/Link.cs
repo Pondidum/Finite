@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Finite
 {
-	public class Link<T>
+	public class Link<T> : ILink<T>
 	{
 		private readonly Func<T, bool> _condition;
 		private readonly Expression<Func<T, bool>> _expression;
