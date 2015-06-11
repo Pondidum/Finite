@@ -15,7 +15,7 @@ namespace Finite
 			_expression = condition;
 		}
 
-		public string Condition { get { return _expression.Body.ToString(); } }
+		public string ConditionDescription { get { return _expression.Body.ToString(); } }
 		public State<T> Target { get; private set; }
 
 		public bool IsActive(T switches)
