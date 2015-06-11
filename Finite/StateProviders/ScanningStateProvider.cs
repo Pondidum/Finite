@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace Finite.StateProviders
 {
+	/// <summary>
+	/// Finds all Types in the assembly which inherit <see cref="State&lt;TSwitches&gt;"/>
+	/// </summary>
+	/// <typeparam name="TSwitches"></typeparam>
 	public class ScanningStateProvider<TSwitches> : IStateProvider<TSwitches>
 	{
 		private readonly Func<Type, State<TSwitches>> _create;
