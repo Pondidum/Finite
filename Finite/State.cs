@@ -36,6 +36,17 @@ namespace Finite
 			_linkBuilders.Add(builder);
 		}
 
+		protected void LinkTo<TTarget>(ILink<T> link)
+		{
+			var builder = new WrappingLinkBuilder<T>
+			{
+				TargetState = typeof (TTarget),
+				Link = link
+			};
+
+			_linkBuilders.Add(builder);
+		}
+
 		internal void Configure(StateRespository<T> stateRepository)
 		{
 			_links.AddRange(_linkBuilders.Select(config => config.CreateLink(stateRepository)));

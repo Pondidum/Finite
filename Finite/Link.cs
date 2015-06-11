@@ -8,15 +8,14 @@ namespace Finite
 		private readonly Func<T, bool> _condition;
 		private readonly Expression<Func<T, bool>> _expression;
 
-		public Link(State<T> type, Expression<Func<T, bool>> condition)
+		public Link(Expression<Func<T, bool>> condition)
 		{
-			Target = type;
 			_condition = condition.Compile();
 			_expression = condition;
 		}
 
 		public string ConditionDescription { get { return _expression.Body.ToString(); } }
-		public State<T> Target { get; private set; }
+		public State<T> Target { get; set; }
 
 		public bool IsActive(T switches)
 		{

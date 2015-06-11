@@ -10,9 +10,22 @@ namespace Finite
 
 		public ILink<TSwitches> CreateLink(StateRespository<TSwitches> stateRepository)
 		{
-			return new Link<TSwitches>(
-				stateRepository.GetStateFor(TargetState),
-				Condition);
+			return new Link<TSwitches>(Condition)
+			{
+				Target = stateRepository.GetStateFor(TargetState)
+			};
+		}
+	}
+
+	internal class WrappingLinkBuilder<TSwitches> : ILinkBuilder<TSwitches>
+	{
+		public Type TargetState { get; set; }
+		public ILink<TSwitches> Link { get; set; }
+ 
+		public ILink<TSwitches> CreateLink(StateRespository<TSwitches> stateRepository)
+		{
+			Link.Target = stateRepository.GetStateFor(TargetState);
+			return Link;
 		}
 	}
 }
