@@ -12,11 +12,5 @@ namespace Finite.Infrastructure
 				action(item);
 			}
 		}
-
-		public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> self, IEnumerable<KeyValuePair<TKey, TValue>> items)
-		{
-			items.ForEach(self.Add);
-		}
-
 	}
 }
