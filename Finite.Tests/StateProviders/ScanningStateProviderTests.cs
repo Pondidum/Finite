@@ -1,4 +1,6 @@
-﻿using Finite.StateProviders;
+﻿using System.Linq;
+using System.Threading;
+using Finite.StateProviders;
 using Finite.Tests.Acceptance;
 using Finite.Tests.Acceptance.States;
 using Shouldly;
@@ -8,17 +10,33 @@ namespace Finite.Tests.StateProviders
 {
 	public class ScanningStateProviderTests
 	{
-		[Fact]
-		public void Scan_should_find_all_relevant_state_types()
-		{
-			var states = new ScanningStateProvider<LightsSwitches>();
+		private readonly ScanningStateProvider<LightsSwitches> _scanner;
 
-			states.KnownTypes.ShouldBe(new[]
+		public ScanningStateProviderTests()
+		{
+			_scanner = new ScanningStateProvider<LightsSwitches>();
+		}
+
+		[Fact]
+		public void The_correct_states_are_found()
+		{
+			var correctStates = new[]
 			{
-				typeof(LightOff), 
-				typeof(LightOnFull), 
-				typeof(LightOnDim)
-			}, true);
+				typeof (LightOff),
+				typeof (LightOnFull),
+				typeof (LightOnDim)
+			};
+
+			_scanner.KnownTypes.ShouldBe(correctStates, ignoreOrder: true);
+		}
+
+		[Fact]
+		public void The_scanner_will_create_instances()
+		{
+			_scanner
+				.Execute()
+				.First()
+				.ShouldBeAssignableTo<State<LightsSwitches>>();
 		}
 	}
 }

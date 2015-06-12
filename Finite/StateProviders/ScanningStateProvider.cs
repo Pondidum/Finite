@@ -33,8 +33,7 @@ namespace Finite.StateProviders
 		public IEnumerable<State<TSwitches>> Execute()
 		{
 			return _types
-				.Select(_create)
-				.ToList();
+				.Select(_create);
 		}
 
 		private static State<TSwitches> Create(Type type)
