@@ -6,10 +6,11 @@ using Xunit;
 
 namespace Finite.Tests.Acceptance
 {
-	public class LightsStateMachine
+	public class LightsStateMachineAcceptanceTest
 	{
-		[Fact]
-		public void Configuring_the_machine()
+		public StateMachine<LightsSwitches> Machine { get; private set; }
+
+		public LightsStateMachineAcceptanceTest()
 		{
 			var allStates = new State<LightsSwitches>[]
 			{
@@ -18,30 +19,72 @@ namespace Finite.Tests.Acceptance
 				new LightOnFull(),
 			};
 
-			var switches = new LightsSwitches();
+			Machine = new StateMachine<LightsSwitches>(
+				new ManualStateProvider<LightsSwitches>(allStates),
+				new LightsSwitches());
+		}
+	}
 
-			var machine = new StateMachine<LightsSwitches>(new ManualStateProvider<LightsSwitches>(allStates), switches);
-			
-			machine.ResetTo<LightOff>();
-			machine.CurrentState.ShouldBeOfType<LightOff>();
+	public class InitialStateAcceptanceTest : LightsStateMachineAcceptanceTest
+	{
+		[Fact]
+		public void When_the_machine_has_not_been_set_to_initial_state()
+		{
+			Should.Throw<StateMachineException>(() => Machine.TransitionTo<LightOnFull>());
+		}
+	}
 
-			machine.AllTargetStates
+	public class ValidStateAcceptanceTest : LightsStateMachineAcceptanceTest
+	{
+		public ValidStateAcceptanceTest()
+		{
+			Machine.ResetTo<LightOff>();
+		}
+
+		[Fact]
+		public void The_current_state_should_be()
+		{
+						Machine.CurrentState.ShouldBeOfType<LightOff>();
+		}
+
+		[Fact]
+		public void All_target_states()
+		{
+			Machine.AllTargetStates
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull) }, true);
+		}
 
-			machine.ActiveTargetStates
+		[Fact]
+		public void All_active_target_states()
+		{
+						Machine.ActiveTargetStates
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnFull) });
+		}
 
-			machine.InactiveTargetStates
+		[Fact]
+		public void All_inactive_target_states()
+		{
+			Machine.InactiveTargetStates
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnDim) });
+		}
+	}
 
-			Should.Throw<InvalidTransitionException>(() => machine.TransitionTo<LightOnDim>());
-			machine.CurrentState.ShouldBeOfType<LightOff>();
+	public class InvalidStateAcceptanceTest : LightsStateMachineAcceptanceTest
+	{
+		public InvalidStateAcceptanceTest()
+		{
+			Machine.ResetTo<LightOff>();
+		}
 
-			machine.TransitionTo<LightOnFull>();
-			machine.CurrentState.ShouldBeOfType<LightOnFull>();
+		[Fact]
+		public void Transitioning_to_an_invalid_state()
+		{
+			Should.Throw<InvalidTransitionException>(() => Machine.TransitionTo<LightOnDim>());
+			Machine.CurrentState.ShouldBeOfType<LightOff>();
+
 		}
 	}
 }
