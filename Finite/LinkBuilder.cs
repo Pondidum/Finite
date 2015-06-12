@@ -2,7 +2,7 @@ using System;
 
 namespace Finite
 {
-	internal class WrappingLinkBuilder<TSwitches> : ILinkBuilder<TSwitches>
+	internal class LinkBuilder<TSwitches>
 	{
 		public Type TargetState { get; set; }
 		public ILink<TSwitches> Link { get; set; }

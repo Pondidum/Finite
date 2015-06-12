@@ -8,13 +8,13 @@ namespace Finite
 	public abstract class State<T>
 	{
 		private readonly List<ILink<T>> _links;
-		private readonly List<ILinkBuilder<T>> _linkBuilders;
+		private readonly List<LinkBuilder<T>> _linkBuilders;
 		private bool _configured;
 
 		protected State()
 		{
 			_links = new List<ILink<T>>();
-			_linkBuilders = new List<ILinkBuilder<T>>();
+			_linkBuilders = new List<LinkBuilder<T>>();
 		}
 
 		protected void LinkTo<TTarget>() where TTarget : State<T>
@@ -32,7 +32,7 @@ namespace Finite
 			if (_configured)
 				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
 
-			var builder = new WrappingLinkBuilder<T>
+			var builder = new LinkBuilder<T>
 			{
 				TargetState = typeof (TTarget),
 				Link = link
