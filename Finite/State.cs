@@ -24,20 +24,14 @@ namespace Finite
 
 		protected void LinkTo<TTarget>(Expression<Func<T, bool>> condition) where TTarget : State<T>
 		{
-			if (_configured)
-				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
-
-			var builder = new StandardLinkBuilder<T>
-			{
-				TargetState = typeof(TTarget),
-				Condition = condition
-			};
-
-			_linkBuilders.Add(builder);
+			LinkTo<TTarget>(new Link<T>(condition));
 		}
 
 		protected void LinkTo<TTarget>(ILink<T> link)
 		{
+			if (_configured)
+				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
+
 			var builder = new WrappingLinkBuilder<T>
 			{
 				TargetState = typeof (TTarget),

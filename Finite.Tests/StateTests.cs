@@ -29,6 +29,17 @@ namespace Finite.Tests
 			Should.Throw<InvalidOperationException>(() => state.Modify());
 		}
 
+		[Fact]
+		public void When_a_state_has_custom_links()
+		{
+			var state = new CustomLinkedState();
+			var states = new StateRespository<object>(new[] { state });
+
+			states.InitialiseStates();
+
+			Should.Throw<InvalidOperationException>(() => state.Modify());
+		}
+
 		private class TestState : State<object>
 		{
 			public TestState()
@@ -49,5 +60,30 @@ namespace Finite.Tests
 				LinkTo<UnlinkedState>();
 			}
 		}
+
+		private class CustomLinkedState : State<object>
+		{
+			public CustomLinkedState()
+			{
+				LinkTo<CustomLinkedState>(new CustomLink());
+			}
+
+			public void Modify()
+			{
+				LinkTo<CustomLinkedState>(new CustomLink());
+			}
+		}
+
+		internal class CustomLink : ILink<object>
+		{
+			public string ConditionDescription { get; private set; }
+			public State<object> Target { get; set; }
+
+			public bool IsActive(object switches)
+			{
+				return true;
+			}
+		}
 	}
+
 }
