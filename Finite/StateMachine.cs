@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Finite.Configurations;
+using Finite.Infrastructure;
 
 namespace Finite
 {
 	public class StateMachine<TSwitches>
 	{
 		private readonly MachineConfiguration<TSwitches> _configuration;
-		private readonly StateRespository<TSwitches> _states;
+		private readonly Dictionary<Type, State<TSwitches>> _states;
 		private readonly TSwitches _switches;
 
 		public StateMachine(IStateProvider<TSwitches> stateProvider, TSwitches switches)
@@ -16,13 +17,15 @@ namespace Finite
 		{
 		}
 
-		public StateMachine(MachineConfiguration<TSwitches> configuration, IStateProvider<TSwitches> stateProvider , TSwitches switches)
+		public StateMachine(MachineConfiguration<TSwitches> configuration, IStateProvider<TSwitches> stateProvider, TSwitches switches)
 		{
 			_switches = switches;
-			_configuration = configuration ??  new MachineConfiguration<TSwitches>();
-			_states = new StateRespository<TSwitches>(stateProvider.Execute());
+			_configuration = configuration ?? new MachineConfiguration<TSwitches>();
+			_states = stateProvider
+				.Execute()
+				.ToDictionary(s => s.GetType(), s => s);
 
-			_states.InitialiseStates();
+			_states.Values.ForEach(state => state.Configure(this));
 		}
 
 		public State<TSwitches> CurrentState { get; private set; }
@@ -30,7 +33,7 @@ namespace Finite
 
 		public IEnumerable<State<TSwitches>> States
 		{
-			get { return _states.AsEnumerable(); }
+			get { return _states.Values; }
 		}
 
 		public IEnumerable<State<TSwitches>> AllTargetStates
@@ -55,7 +58,7 @@ namespace Finite
 
 		public void ResetTo(Type target)
 		{
-			var targetState = _states.GetStateFor(target);
+			var targetState = GetStateFor(target);
 			var stateChangeArgs = new StateChangeEventArgs<TSwitches>(_switches, CurrentState, targetState);
 
 			CurrentState = targetState;
@@ -70,7 +73,7 @@ namespace Finite
 
 		public void TransitionTo(Type target)
 		{
-			var targetState = _states.GetStateFor(target);
+			var targetState = GetStateFor(target);
 
 			if (CurrentState == null)
 			{
@@ -106,6 +109,16 @@ namespace Finite
 			{
 				stateChangeArgs.Previous.OnLeave(this, stateChangeArgs);
 			}
+		}
+
+		public State<TSwitches> GetStateFor(Type stateType)
+		{
+			if (_states.ContainsKey(stateType) == false)
+			{
+				throw new UnknownStateException(stateType);
+			}
+
+			return _states[stateType];
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Finite.StateProviders;
 using Shouldly;
 using Xunit;
 
@@ -11,9 +12,7 @@ namespace Finite.Tests
 		public void When_a_state_has_been_configured()
 		{
 			var state = new TestState();
-			var states = new StateRespository<object>(new[] { state });
-
-			states.InitialiseStates();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new[] { state }), null);
 
 			Should.Throw<InvalidOperationException>(() => state.Modify());
 		}
@@ -22,9 +21,7 @@ namespace Finite.Tests
 		public void When_a_state_has_been_conifgured_with_no_links()
 		{
 			var state = new UnlinkedState();
-			var states = new StateRespository<object>(new[] { state });
-
-			states.InitialiseStates();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new[] { state }), null);
 
 			Should.Throw<InvalidOperationException>(() => state.Modify());
 		}
@@ -33,9 +30,7 @@ namespace Finite.Tests
 		public void When_a_state_has_custom_links()
 		{
 			var state = new CustomLinkedState();
-			var states = new StateRespository<object>(new[] { state });
-
-			states.InitialiseStates();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new[] { state }), null);
 
 			Should.Throw<InvalidOperationException>(() => state.Modify());
 		}

@@ -41,9 +41,9 @@ namespace Finite
 			_linkBuilders.Add(builder);
 		}
 
-		internal void Configure(StateRespository<T> stateRepository)
+		internal void Configure(StateMachine<T> stateMachine)
 		{
-			_links.AddRange(_linkBuilders.Select(config => config.CreateLink(stateRepository)));
+			_links.AddRange(_linkBuilders.Select(config => config.CreateLink(stateMachine)));
 
 			_configured = true;
 		}
