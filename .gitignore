@@ -9,6 +9,7 @@ _ReSharper.*
 *.cache
 *.DotSettings
 *.DotSettings.user
+.vs/
 
 Gemfile.lock
 
