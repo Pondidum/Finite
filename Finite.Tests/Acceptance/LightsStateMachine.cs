@@ -50,15 +50,20 @@ namespace Finite.Tests.Acceptance
 		[Fact]
 		public void All_target_states()
 		{
-			Machine.AllTargetStates
-				.Select(state => state.GetType())
+			Machine
+				.CurrentState
+				.Links
+				.Select(state => state.Target.GetType())
 				.ShouldBe(new[] { typeof(LightOnDim), typeof(LightOnFull) }, true);
 		}
 
 		[Fact]
 		public void All_active_target_states()
 		{
-						Machine.ActiveTargetStates
+			Machine
+				.CurrentState
+				.Links
+				.Active()
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnFull) });
 		}
@@ -66,7 +71,10 @@ namespace Finite.Tests.Acceptance
 		[Fact]
 		public void All_inactive_target_states()
 		{
-			Machine.InactiveTargetStates
+			Machine
+				.CurrentState
+				.Links
+				.Inactive()
 				.Select(state => state.GetType())
 				.ShouldBe(new[] { typeof(LightOnDim) });
 		}

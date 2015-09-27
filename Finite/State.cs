@@ -10,6 +10,7 @@ namespace Finite
 		private readonly List<ILink<T>> _links;
 		private readonly List<LinkBuilder<T>> _linkBuilders;
 		private bool _configured;
+		private StateMachine<T> _machine;
 
 		protected State()
 		{
@@ -43,14 +44,15 @@ namespace Finite
 
 		internal void Configure(StateMachine<T> stateMachine)
 		{
+			_machine = stateMachine;
 			_links.AddRange(_linkBuilders.Select(config => config.CreateLink(stateMachine)));
 
 			_configured = true;
 		}
 
-		public IEnumerable<ILink<T>> Links
+		public LinkIterator<T> Links
 		{
-			get { return _links.AsEnumerable(); }
+			get { return new LinkIterator<T>(_machine, _links); }
 		}
 
 		public virtual void OnLeave(object sender, StateChangeEventArgs<T> stateChangeArgs)
@@ -63,10 +65,10 @@ namespace Finite
 			//nothing
 		}
 
-		public bool CanTransitionTo(T switches, State<T> target)
+		public bool CanTransitionTo(State<T> target)
 		{
 			return _links
-				.Where(l => l.IsActive(switches))
+				.Where(l => l.IsActive(_machine.Switches))
 				.Any(l => l.Target == target);
 		}
 	}

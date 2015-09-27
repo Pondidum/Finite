@@ -44,6 +44,7 @@
     <Compile Include="ILink.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="IStateProvider.cs" />
+    <Compile Include="LinkIterator.cs" />
     <Compile Include="Properties\AssemblyVersion.cs" />
     <Compile Include="Renderers\GraphvizRenderer.cs" />
     <Compile Include="StateChangeEventArgs.cs" />
