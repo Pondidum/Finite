@@ -1,15 +1,15 @@
 ﻿namespace Finite.Configurations
 {
-	public class MachineConfiguration<T>
+	public class MachineConfiguration<TSwitches>
 	{
-		public IStateChangedHandler<T> StateChangedHandler { get; private set; }
+		public IStateChangedHandler<TSwitches> StateChangedHandler { get; private set; }
 
 		public MachineConfiguration()
 		{
-			OnStateChange(new DefaultStateChangedHandler<T>());
+			OnStateChange(new DefaultStateChangedHandler<TSwitches>());
 		}
 
-		public MachineConfiguration<T> OnStateChange(IStateChangedHandler<T> handler)
+		public MachineConfiguration<TSwitches> OnStateChange(IStateChangedHandler<TSwitches> handler)
 		{
 			StateChangedHandler = handler;
 			return this;

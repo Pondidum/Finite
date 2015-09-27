@@ -3,21 +3,21 @@ using System.Linq.Expressions;
 
 namespace Finite
 {
-	public class Link<T> : ILink<T>
+	public class Link<TSwitches> : ILink<TSwitches>
 	{
-		private readonly Func<T, bool> _condition;
-		private readonly Expression<Func<T, bool>> _expression;
+		private readonly Func<TSwitches, bool> _condition;
+		private readonly Expression<Func<TSwitches, bool>> _expression;
 
-		public Link(Expression<Func<T, bool>> condition)
+		public Link(Expression<Func<TSwitches, bool>> condition)
 		{
 			_condition = condition.Compile();
 			_expression = condition;
 		}
 
 		public string ConditionDescription { get { return _expression.Body.ToString(); } }
-		public State<T> Target { get; set; }
+		public State<TSwitches> Target { get; set; }
 
-		public bool IsActive(T switches)
+		public bool IsActive(TSwitches switches)
 		{
 			return _condition.Invoke(switches);
 		}

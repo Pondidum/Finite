@@ -1,10 +1,10 @@
 namespace Finite
 {
-	public interface ILink<T>
+	public interface ILink<TSwitches>
 	{
 		string ConditionDescription { get; }
-		State<T> Target { get; set; }
+		State<TSwitches> Target { get; set; }
 
-		bool IsActive(T switches);
+		bool IsActive(TSwitches switches);
 	}
 }

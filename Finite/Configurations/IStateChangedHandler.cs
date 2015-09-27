@@ -1,9 +1,9 @@
 namespace Finite.Configurations
 {
-	public interface IStateChangedHandler<T>
+	public interface IStateChangedHandler<TSwitches>
 	{
-		void OnLeaveState(object sender, StateChangeEventArgs<T> stateChangeArgs);
-		void OnEnterState(object sender, StateChangeEventArgs<T> stateChangeArgs);
-		void OnResetState(object sender, StateChangeEventArgs<T> stateChangeArgs);
+		void OnLeaveState(object sender, StateChangeEventArgs<TSwitches> stateChangeArgs);
+		void OnEnterState(object sender, StateChangeEventArgs<TSwitches> stateChangeArgs);
+		void OnResetState(object sender, StateChangeEventArgs<TSwitches> stateChangeArgs);
 	}
 }

@@ -1,12 +1,12 @@
 ﻿namespace Finite
 {
-	public class StateChangeEventArgs<T>
+	public class StateChangeEventArgs<TSwitches>
 	{
-		public T Switches { get; private set; }
-		public State<T> Previous { get; private set; }
-		public State<T> Next { get; private set; }
+		public TSwitches Switches { get; private set; }
+		public State<TSwitches> Previous { get; private set; }
+		public State<TSwitches> Next { get; private set; }
 
-		public StateChangeEventArgs(T switches, State<T> previous, State<T> next)
+		public StateChangeEventArgs(TSwitches switches, State<TSwitches> previous, State<TSwitches> next)
 		{
 			Switches = switches;
 			Previous = previous;
