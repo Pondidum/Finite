@@ -7,15 +7,13 @@ namespace Finite
 {
 	public abstract class State<TSwitches>
 	{
-		private readonly List<ILink<TSwitches>> _links;
-		private readonly List<LinkBuilder<TSwitches>> _linkBuilders;
+		private readonly List<LinkWrapper<TSwitches>> _links;
 		private bool _configured;
 		private StateMachine<TSwitches> _machine;
 
 		protected State()
 		{
-			_links = new List<ILink<TSwitches>>();
-			_linkBuilders = new List<LinkBuilder<TSwitches>>();
+			_links = new List<LinkWrapper<TSwitches>>();
 		}
 
 		protected void LinkTo<TTarget>() where TTarget : State<TSwitches>
@@ -33,19 +31,13 @@ namespace Finite
 			if (_configured)
 				throw new InvalidOperationException("You can only call LinkTo in a state's constructor.");
 
-			var builder = new LinkBuilder<TSwitches>
-			{
-				TargetState = typeof (TTarget),
-				Link = link
-			};
-
-			_linkBuilders.Add(builder);
+			_links.Add(new LinkWrapper<TSwitches>(link, typeof(TTarget)));
 		}
 
 		internal void Configure(StateMachine<TSwitches> stateMachine)
 		{
 			_machine = stateMachine;
-			_links.AddRange(_linkBuilders.Select(config => config.CreateLink(stateMachine)));
+			_links.ForEach(link => link.Configure(stateMachine));
 
 			_configured = true;
 		}
