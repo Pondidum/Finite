@@ -2,7 +2,7 @@
 
 namespace Sample.Common.States
 {
-	public class NewRequest : State<CreditSwitches>
+	public class NewRequest : State<ICreditSwitches>
 	{
 		public NewRequest()
 		{

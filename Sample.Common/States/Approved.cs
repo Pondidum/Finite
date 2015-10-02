@@ -2,7 +2,7 @@ using Finite;
 
 namespace Sample.Common.States
 {
-	public class Approved : State<CreditSwitches>
+	public class Approved : State<ICreditSwitches>
 	{
 		public Approved()
 		{

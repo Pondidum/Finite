@@ -2,7 +2,7 @@
 
 namespace Sample.Common.States
 {
-	public class AwaitingManagerApproval : State<CreditSwitches>
+	public class AwaitingManagerApproval : State<ICreditSwitches>
 	{
 		public AwaitingManagerApproval()
 		{
