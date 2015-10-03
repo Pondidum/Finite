@@ -59,9 +59,22 @@ namespace Finite
 
 		public bool CanTransitionTo(State<TSwitches> target)
 		{
+			return CanTransitionTo(target.GetType());
+		}
+
+		public bool CanTransitionTo<TState>()
+			where TState : State<TSwitches>
+		{
+			return CanTransitionTo(typeof(TState));
+
+		}
+
+		public bool CanTransitionTo(Type targetState)
+		{
 			return _links
-				.Where(l => l.IsActive(_machine.Switches))
-				.Any(l => l.Target == target);
+				.Where(l => l.Target.GetType() == targetState)
+				.Any(l => l.IsActive(_machine.Switches));
+
 		}
 	}
 }

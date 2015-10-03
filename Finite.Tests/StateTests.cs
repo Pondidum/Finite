@@ -35,6 +35,66 @@ namespace Finite.Tests
 			Should.Throw<InvalidOperationException>(() => state.Modify());
 		}
 
+		[Fact]
+		public void When_checking_if_transition_is_valid_by_state_instance()
+		{
+			var state = new TestState();
+			var unlinked = new UnlinkedState();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new State<object>[] { state, unlinked }), null);
+
+			state.CanTransitionTo(state).ShouldBe(true);
+		}
+
+		[Fact]
+		public void When_checking_if_transition_is_valid_by_generic()
+		{
+			var state = new TestState();
+			var unlinked = new UnlinkedState();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new State<object>[] { state, unlinked }), null);
+
+			state.CanTransitionTo<TestState>().ShouldBe(true);
+		}
+
+		[Fact]
+		public void When_checking_if_transition_is_valid_by_type()
+		{
+			var state = new TestState();
+			var unlinked = new UnlinkedState();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new State<object>[] { state, unlinked }), null);
+
+			state.CanTransitionTo(typeof(TestState)).ShouldBe(true);
+		}
+
+		[Fact]
+		public void When_checking_if_transition_is_not_valid_by_state_instance()
+		{
+			var state = new TestState();
+			var unlinked = new UnlinkedState();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new State<object>[] { state, unlinked }), null);
+
+			state.CanTransitionTo(unlinked).ShouldBe(false);
+		}
+
+		[Fact]
+		public void When_checking_if_transition_is_not_valid_by_generic()
+		{
+			var state = new TestState();
+			var unlinked = new UnlinkedState();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new State<object>[] { state, unlinked }), null);
+
+			state.CanTransitionTo<UnlinkedState>().ShouldBe(false);
+		}
+
+		[Fact]
+		public void When_checking_if_transition_is_not_valid_by_type()
+		{
+			var state = new TestState();
+			var unlinked = new UnlinkedState();
+			var machine = new StateMachine<object>(new ManualStateProvider<object>(new State<object>[] { state, unlinked }), null);
+
+			state.CanTransitionTo(typeof(UnlinkedState)).ShouldBe(false);
+		}
+
 		private class TestState : State<object>
 		{
 			public TestState()
