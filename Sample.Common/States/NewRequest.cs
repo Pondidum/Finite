@@ -2,11 +2,11 @@
 
 namespace Sample.Common.States
 {
-	public class NewRequest : State<ICreditSwitches>
+	public class NewRequest : State<CreditRequest>
 	{
 		public NewRequest()
 		{
-			LinkTo<AwaitingManagerApproval>(x => x.IsFilledOut);
+			LinkTo<AwaitingManagerApproval>(request => request.Justification.Trim() != "" && request.Amount > 0);
 			LinkTo<Abandoned>();
 		}
 	}
