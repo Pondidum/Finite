@@ -1,4 +1,4 @@
-﻿namespace Sample.Winforms.NewRequest
+﻿namespace Sample.Winforms.NewRequestEditor
 {
 	partial class NewRequestView
 	{

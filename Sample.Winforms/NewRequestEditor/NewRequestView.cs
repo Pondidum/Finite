@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Sample.Winforms.NewRequest
+namespace Sample.Winforms.NewRequestEditor
 {
 	public partial class NewRequestView : Form
 	{
