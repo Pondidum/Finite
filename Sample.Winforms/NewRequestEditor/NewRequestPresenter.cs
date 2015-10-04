@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using System.Windows.Forms;
 using Finite;
-using Finite.StateProviders;
 using Sample.Common;
 using Sample.Common.States;
 
@@ -10,8 +9,9 @@ namespace Sample.Winforms.NewRequestEditor
 {
 	public class NewRequestPresenter : IDisposable
 	{
+		public CreditRequest CreditRequest { get; }
+
 		private readonly INewRequestView _view;
-		private readonly CreditRequest _request;
 		private readonly StateMachine<CreditRequest> _fsm;
 
 		public NewRequestPresenter(INewRequestView view)
@@ -21,14 +21,14 @@ namespace Sample.Winforms.NewRequestEditor
 			_view.SubmitRequest += OnSubmitRequest;
 			_view.CancelRequest += OnCancelRequest;
 
-			_request = new CreditRequest
+			CreditRequest = new CreditRequest
 			{
 				CreatedOn = DateTime.Now,
-				CreatedBy = ClaimsPrincipal.Current.Identity.Name
+				CreatedBy = ClaimsPrincipal.Current.Identity.Name,
+				State = typeof(NewRequest)
 			};
 
-			_fsm = new StateMachine<CreditRequest>(new ScanningStateProvider<CreditRequest>(), _request);
-			_fsm.ResetTo<NewRequest>();
+			_fsm = StateMachineBuilder.Create(CreditRequest);
 		}
 
 		public bool Display()
@@ -48,8 +48,8 @@ namespace Sample.Winforms.NewRequestEditor
 				return;
 			}
 
-			_request.Amount = _view.Amount;
-			_request.Justification = _view.Justification;
+			CreditRequest.Amount = _view.Amount;
+			CreditRequest.Justification = _view.Justification;
 
 			_fsm.TransitionTo<NewRequest>();
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sample.Winforms.NewRequestEditor;
 
 namespace Sample.Winforms
 {
@@ -16,7 +17,12 @@ namespace Sample.Winforms
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new Form1());
+			
+			using (var view = new NewRequestView())
+			using (var presenter = new NewRequestPresenter(view))
+			{
+				presenter.Display();
+			}
 		}
 	}
 }
