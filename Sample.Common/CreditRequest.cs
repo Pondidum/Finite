@@ -1,4 +1,5 @@
 ﻿using System;
+using Finite;
 
 namespace Sample.Common
 {
@@ -12,5 +13,7 @@ namespace Sample.Common
 
 		public DateTime ValidatedOn { get; set; }
 		public string ValidatedBy { get; set; }
+
+		public Type State { get; set; }
 	}
 }
