@@ -60,6 +60,7 @@
     <Compile Include="Acceptance\LightsSwitches.cs" />
     <Compile Include="Acceptance\StateChangedTests.cs" />
     <Compile Include="Acceptance\States\LightState.cs" />
+    <Compile Include="Configurations\DefaultStateChangedHandlerTests.cs" />
     <Compile Include="Renderers\GrapvizRendererTests.cs" />
     <Compile Include="Acceptance\States\LightOnDim.cs" />
     <Compile Include="Acceptance\States\LightOnFull.cs" />
