@@ -54,6 +54,14 @@
       <DependentUpon>SwitcherView.cs</DependentUpon>
     </Compile>
     <Compile Include="EventAction.cs" />
+    <Compile Include="ManagerApplication\IManagerView.cs" />
+    <Compile Include="ManagerApplication\ManagerPresenter.cs" />
+    <Compile Include="ManagerApplication\ManagerView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManagerApplication\ManagerView.Designer.cs">
+      <DependentUpon>ManagerView.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewRequestEditor\INewRequestView.cs" />
     <Compile Include="NewRequestEditor\NewRequestPresenter.cs" />
     <Compile Include="NewRequestEditor\NewRequestView.cs">
@@ -75,6 +83,9 @@
     </Compile>
     <EmbeddedResource Include="ApplicationSwitcher\SwitcherView.resx">
       <DependentUpon>SwitcherView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManagerApplication\ManagerView.resx">
+      <DependentUpon>ManagerView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewRequestEditor\NewRequestView.resx">
       <DependentUpon>NewRequestView.cs</DependentUpon>

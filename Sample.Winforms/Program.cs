@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Sample.Common;
 using Sample.Common.States;
 using Sample.Winforms.ApplicationSwitcher;
+using Sample.Winforms.ManagerApplication;
 using Sample.Winforms.NewRequestEditor;
 using Sample.Winforms.UserApplication;
 
@@ -49,8 +50,10 @@ namespace Sample.Winforms
 
 			using (var userView = new UserView())
 			using (var userPresenter = new UserPresenter(userView, allRequests))
+			using (var managerView = new ManagerView())
+			using (var managerPresenter = new ManagerPresenter(managerView, allRequests))
 			using (var switcherView = new SwitcherView())
-			using (var switcherPresenter = new SwitcherPresenter(switcherView, userPresenter.Display, () => { }))
+			using (var switcherPresenter = new SwitcherPresenter(switcherView, userPresenter.Display, managerPresenter.Display))
 			{
 				switcherPresenter.Display();
 			}
