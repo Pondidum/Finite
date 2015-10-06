@@ -77,6 +77,7 @@
 			this.Controls.Add(this.btnAbandon);
 			this.Controls.Add(this.btnNew);
 			this.Name = "UserView";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "UserView";
 			this.ResumeLayout(false);
 

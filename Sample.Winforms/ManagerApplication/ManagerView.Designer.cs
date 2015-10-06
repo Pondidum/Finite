@@ -104,6 +104,7 @@
 			this.Controls.Add(this.lblTitle);
 			this.Controls.Add(this.lst);
 			this.Name = "ManagerView";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "ManagerView";
 			this.ResumeLayout(false);
 			this.PerformLayout();

@@ -115,6 +115,7 @@
 			this.Controls.Add(this.btnSave);
 			this.Controls.Add(this.btnSubmit);
 			this.Name = "NewRequestView";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "NewRequestView";
 			((System.ComponentModel.ISupportInitialize)(this.numAmount)).EndInit();
 			this.ResumeLayout(false);
