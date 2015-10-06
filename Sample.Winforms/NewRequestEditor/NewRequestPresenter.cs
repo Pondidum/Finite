@@ -23,6 +23,7 @@ namespace Sample.Winforms.NewRequestEditor
 
 			CreditRequest = new CreditRequest
 			{
+				ID = Guid.NewGuid(),
 				CreatedOn = DateTime.Now,
 				CreatedBy = ClaimsPrincipal.Current.Identity.Name,
 				State = typeof(NewRequest)

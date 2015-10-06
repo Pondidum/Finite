@@ -1,10 +1,11 @@
 ﻿using System;
-using Finite;
 
 namespace Sample.Common
 {
 	public class CreditRequest
 	{
+		public Guid ID { get; set; }
+
 		public decimal Amount { get; set; }
 		public string Justification { get; set; }
 

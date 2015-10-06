@@ -29,6 +29,7 @@ namespace Sample.Winforms
 			var allRequests = new List<CreditRequest>();
 			allRequests.Add(new CreditRequest
 			{
+				ID = Guid.NewGuid(),
 				Amount = 2.50M,
 				Justification = "I need food",
 				CreatedOn = DateTime.Now,
@@ -38,6 +39,7 @@ namespace Sample.Winforms
 
 			allRequests.Add(new CreditRequest
 			{
+				ID = Guid.NewGuid(),
 				Amount = 2.50M,
 				Justification = "I need food",
 				CreatedOn = DateTime.Now,
