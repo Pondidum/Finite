@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sample.Common;
 using Sample.Common.States;
+using Sample.Winforms.ApplicationSwitcher;
 using Sample.Winforms.NewRequestEditor;
 using Sample.Winforms.UserApplication;
 
@@ -23,7 +24,10 @@ namespace Sample.Winforms
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 
-			ClaimsPrincipal.Current.AddIdentity(new GenericIdentity("Andy Dote"));
+
+			var identity = new GenericIdentity("Andy Dote");
+			
+			ClaimsPrincipal.Current.AddIdentity(identity);
 
 
 			var allRequests = new List<CreditRequest>();
@@ -47,10 +51,13 @@ namespace Sample.Winforms
 				State = typeof(Abandoned)
 			});
 
-			using (var view = new UserView())
-			using (var presenter = new UserPresenter(view, allRequests))
+
+			using (var userView = new UserView())
+			using (var userPresenter = new UserPresenter(userView, allRequests))
+			using (var switcherView = new SwitcherView())
+			using (var switcherPresenter = new SwitcherPresenter(switcherView, userPresenter.Display, () => { }))
 			{
-				presenter.Display();
+				switcherPresenter.Display();
 			}
 		}
 	}

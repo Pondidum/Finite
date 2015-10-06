@@ -45,6 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationSwitcher\ISwitcherView.cs" />
+    <Compile Include="ApplicationSwitcher\SwitcherPresenter.cs" />
+    <Compile Include="ApplicationSwitcher\SwitcherView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ApplicationSwitcher\SwitcherView.Designer.cs">
+      <DependentUpon>SwitcherView.cs</DependentUpon>
+    </Compile>
     <Compile Include="EventAction.cs" />
     <Compile Include="NewRequestEditor\INewRequestView.cs" />
     <Compile Include="NewRequestEditor\NewRequestPresenter.cs" />
@@ -65,6 +73,9 @@
     <Compile Include="UserApplication\UserView.Designer.cs">
       <DependentUpon>UserView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ApplicationSwitcher\SwitcherView.resx">
+      <DependentUpon>SwitcherView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="NewRequestEditor\NewRequestView.resx">
       <DependentUpon>NewRequestView.cs</DependentUpon>
     </EmbeddedResource>
