@@ -34,15 +34,30 @@ namespace Sample.Winforms.ManagerApplication
 				.Where(cr => cr.State == typeof (AwaitingManagerApproval));
 		}
 
+		private void ClearDisplay()
+		{
+			_view.ClearDisplay();
+			_view.ApproveEnabled = false;
+			_view.RejectEnabled = false;
+		}
+
 		private void OnCreditRequestSelected()
 		{
 			var selected = _view.SelectedRequest;
 
 			if (selected == null)
-				_view.ClearDisplay();
-			else
-				_view.DisplayRequest(selected);
+			{
+				ClearDisplay();
+				return;
+			}
+
+			var machine = StateMachineBuilder.Create(selected);
+
+			_view.ApproveEnabled = machine.CurrentState.CanTransitionTo<Approved>();
+			_view.RejectEnabled = machine.CurrentState.CanTransitionTo<Rejected>();
+			_view.DisplayRequest(selected);
 		}
+
 
 		private void OnApproveClicked()
 		{
@@ -57,6 +72,8 @@ namespace Sample.Winforms.ManagerApplication
 				return;
 
 			machine.TransitionTo<Approved>();
+
+			ClearDisplay();
 			RefreshList();
 		}
 
@@ -73,6 +90,8 @@ namespace Sample.Winforms.ManagerApplication
 				return;
 
 			machine.TransitionTo<Rejected>();
+
+			ClearDisplay();
 			RefreshList();
 		}
 

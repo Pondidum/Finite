@@ -13,6 +13,9 @@ namespace Sample.Winforms.ManagerApplication
 		IEnumerable<CreditRequest> CreditRequests { set; }
 		CreditRequest SelectedRequest { get; set; }
 
+		bool ApproveEnabled { set; }
+		bool RejectEnabled { set; }
+
 		void DisplayRequest(CreditRequest request);
 		void ClearDisplay();
 

@@ -13,14 +13,25 @@ namespace Sample.Winforms.ManagerApplication
 {
 	public partial class ManagerView : Form, IManagerView
 	{
+
+		public event EventAction ApproveClicked;
+		public event EventAction RejectClicked;
+		public event EventAction CreditRequestSelected;
+
 		public ManagerView()
 		{
 			InitializeComponent();
 		}
 
-		public event EventAction ApproveClicked;
-		public event EventAction RejectClicked;
-		public event EventAction CreditRequestSelected;
+		public bool ApproveEnabled
+		{
+			set { btnAccept.Enabled = value; }
+		}
+
+		public bool RejectEnabled
+		{
+			set { btnReject.Enabled = value; }
+		}
 
 		public IEnumerable<CreditRequest> CreditRequests
 		{
