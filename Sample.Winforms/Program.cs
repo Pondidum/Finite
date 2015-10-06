@@ -25,11 +25,6 @@ namespace Sample.Winforms
 			Application.SetCompatibleTextRenderingDefault(false);
 
 
-			var identity = new GenericIdentity("Andy Dote");
-			
-			ClaimsPrincipal.Current.AddIdentity(identity);
-
-
 			var allRequests = new List<CreditRequest>();
 			allRequests.Add(new CreditRequest
 			{
