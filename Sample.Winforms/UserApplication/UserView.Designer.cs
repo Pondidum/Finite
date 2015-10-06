@@ -35,30 +35,38 @@
 			// 
 			// btnNew
 			// 
+			this.btnNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnNew.Location = new System.Drawing.Point(12, 226);
 			this.btnNew.Name = "btnNew";
 			this.btnNew.Size = new System.Drawing.Size(75, 23);
 			this.btnNew.TabIndex = 0;
 			this.btnNew.Text = "New";
 			this.btnNew.UseVisualStyleBackColor = true;
+			this.btnNew.Click += new System.EventHandler(this.btnNew_Click);
 			// 
 			// btnAbandon
 			// 
+			this.btnAbandon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnAbandon.Location = new System.Drawing.Point(93, 226);
 			this.btnAbandon.Name = "btnAbandon";
 			this.btnAbandon.Size = new System.Drawing.Size(75, 23);
 			this.btnAbandon.TabIndex = 0;
 			this.btnAbandon.Text = "Abandon";
 			this.btnAbandon.UseVisualStyleBackColor = true;
+			this.btnAbandon.Click += new System.EventHandler(this.btnAbandon_Click);
 			// 
 			// lst
 			// 
+			this.lst.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.lst.FormattingEnabled = true;
 			this.lst.IntegralHeight = false;
 			this.lst.Location = new System.Drawing.Point(12, 12);
 			this.lst.Name = "lst";
 			this.lst.Size = new System.Drawing.Size(156, 208);
 			this.lst.TabIndex = 1;
+			this.lst.SelectedIndexChanged += new System.EventHandler(this.lst_SelectedIndexChanged);
 			// 
 			// UserView
 			// 
