@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Sample.Common;
+using Sample.Common.States;
 using Sample.Winforms.NewRequestEditor;
+using Sample.Winforms.UserApplication;
 
 namespace Sample.Winforms
 {
@@ -17,9 +22,31 @@ namespace Sample.Winforms
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			
-			using (var view = new NewRequestView())
-			using (var presenter = new NewRequestPresenter(view))
+
+			ClaimsPrincipal.Current.AddIdentity(new GenericIdentity("Andy Dote"));
+
+
+			var allRequests = new List<CreditRequest>();
+			allRequests.Add(new CreditRequest
+			{
+				Amount = 2.50M,
+				Justification = "I need food",
+				CreatedOn = DateTime.Now,
+				CreatedBy = "Andy Dote",
+				State = typeof(AwaitingManagerApproval)
+			});
+
+			allRequests.Add(new CreditRequest
+			{
+				Amount = 2.50M,
+				Justification = "I need food",
+				CreatedOn = DateTime.Now,
+				CreatedBy = "Andy Dote",
+				State = typeof(Abandoned)
+			});
+
+			using (var view = new UserView())
+			using (var presenter = new UserPresenter(view, allRequests))
 			{
 				presenter.Display();
 			}
