@@ -40,5 +40,28 @@ namespace Finite.Tests.Renderers
 			_output.WriteLine(renderer.Output);
 			renderer.Output.ShouldBe(GraphDsl);
 		}
+
+		[Fact]
+		public void When_rendering_an_expression_with_quotes()
+		{
+			var switches = new object();
+			var states = new ManualStateProvider<object>(new[] { new RenderState() });
+			var machine = new StateMachine<object>(states, switches);
+
+			var renderer = new GraphvizRenderer();
+			renderer.Render(machine);
+
+			renderer.Output.ShouldBe(
+				"digraph {\r\n\tRenderState -> RenderState[label=\"(link.ToString() == \\\"\\\")\"];\r\n}\r\n"
+			);
+		}
+
+		private class RenderState : State<object>
+		{
+			public RenderState()
+			{
+				LinkTo<RenderState>(link => link.ToString() == "");
+			}
+		}
 	}
 }

@@ -31,7 +31,7 @@ namespace Finite.Renderers
 						"\t{0} -> {1}[label=\"{2}\"];",
 						fromName,
 						toName,
-						link.ConditionDescription);
+						link.ConditionDescription.Replace("\"", "\\\""));
 
 					_sb.AppendLine();
 
