@@ -6,7 +6,7 @@ namespace Sample.CustomStateLoading.States
 	{
 		public Rejected()
 		{
-			LinkTo<AwaitingManagerApproval>();
+			LinkTo<NewRequest>();
 		}
 
 		public override Progress Type
