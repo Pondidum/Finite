@@ -25,7 +25,7 @@ namespace Sample.CustomStateLoading
 
 			var request = LoadFromDatabase();
 
-			var machine = new StateMachine<CreditRequest>(config, provider, request);
+			var machine = new StateMachine<CreditRequest>(provider, request);
 			machine.ResetTo(provider.StateFrom(request.Progress).GetType());
 
 			machine.CurrentState.ShouldBeOfType<Approved>();
