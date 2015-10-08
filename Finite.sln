@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Winforms", "Sample.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.CustomStateLoading", "Sample.CustomStateLoading\Sample.CustomStateLoading.csproj", "{1BB61385-8235-4C26-A317-5F3C13CE46C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Rendering", "Sample.Rendering\Sample.Rendering.csproj", "{274B0E68-F88E-422B-ABBE-D4CBADB1D506}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{1BB61385-8235-4C26-A317-5F3C13CE46C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BB61385-8235-4C26-A317-5F3C13CE46C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BB61385-8235-4C26-A317-5F3C13CE46C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{274B0E68-F88E-422B-ABBE-D4CBADB1D506}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{274B0E68-F88E-422B-ABBE-D4CBADB1D506}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{274B0E68-F88E-422B-ABBE-D4CBADB1D506}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{274B0E68-F88E-422B-ABBE-D4CBADB1D506}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
