@@ -1,21 +1,14 @@
 obj
 bin
-*.ReSharper.user
-_ReSharper.*
-*.resharper
 *.csproj.user
 *.vbproj.user
-*.suo
-*.cache
-*.DotSettings
+*.xproj.user
 *.DotSettings.user
-.vs/
 
-Gemfile.lock
+project.lock.json
 
-AssemblyVersion.cs
-
-packages
-build
-
-*.sublime-workspace
+/packages
+/node_modules
+/.vs
+/.idea
+/build
