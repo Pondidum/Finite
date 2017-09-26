@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finite.Tests", "src\Finite.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Common", "src\Sample.Common\Sample.Common.csproj", "{238414DD-DD84-47B9-BE9C-62AE6AB636C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Winforms", "src\Sample.Winforms\Sample.Winforms.csproj", "{891D48B6-35C1-46EB-8A5A-99A2C1D5C04D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.CustomStateLoading", "src\Sample.CustomStateLoading\Sample.CustomStateLoading.csproj", "{1BB61385-8235-4C26-A317-5F3C13CE46C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Rendering", "src\Sample.Rendering\Sample.Rendering.csproj", "{274B0E68-F88E-422B-ABBE-D4CBADB1D506}"
@@ -33,10 +31,6 @@ Global
 		{238414DD-DD84-47B9-BE9C-62AE6AB636C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{238414DD-DD84-47B9-BE9C-62AE6AB636C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{238414DD-DD84-47B9-BE9C-62AE6AB636C3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{891D48B6-35C1-46EB-8A5A-99A2C1D5C04D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{891D48B6-35C1-46EB-8A5A-99A2C1D5C04D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{891D48B6-35C1-46EB-8A5A-99A2C1D5C04D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{891D48B6-35C1-46EB-8A5A-99A2C1D5C04D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1BB61385-8235-4C26-A317-5F3C13CE46C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BB61385-8235-4C26-A317-5F3C13CE46C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BB61385-8235-4C26-A317-5F3C13CE46C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
