@@ -1,73 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{551873AB-66F5-4F59-83E9-DEEACD8A540C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Finite</RootNamespace>
-    <AssemblyName>Finite</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
+    <PackageId>Finite</PackageId>
+    <PackageTags>statemachine;fsm;graph;finite state machine</PackageTags>
+    <PackageVersion>4.1.0</PackageVersion>
+    <Title>Finite</Title>
+    <Description>A simple Finite State Machine library.</Description>
+    <Authors>Andy Dote</Authors>
+
+    <PackageProjectUrl>http://github.com/pondidum/finite/</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Pondidum/Finite/blob/master/LICENSE.txt</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/pondidum/finite</RepositoryUrl>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Configurations\DefaultStateChangedHandler.cs" />
-    <Compile Include="Configurations\IStateChangedHandler.cs" />
-    <Compile Include="Configurations\LambdaStateChangedHandler.cs" />
-    <Compile Include="ILink.cs" />
-    <Compile Include="Infrastructure\Extensions.cs" />
-    <Compile Include="IStateProvider.cs" />
-    <Compile Include="LinkIterator.cs" />
-    <Compile Include="LinkWrapper.cs" />
-    <Compile Include="Properties\AssemblyVersion.cs" />
-    <Compile Include="Renderers\GraphvizRenderer.cs" />
-    <Compile Include="StateChangeEventArgs.cs" />
-    <Compile Include="StateMachineException.cs" />
-    <Compile Include="StateProviders\ManualStateProvider.cs" />
-    <Compile Include="StateProviders\ScanningStateProvider.cs" />
-    <Compile Include="UnknownStateException.cs" />
-    <Compile Include="InvalidTransitionException.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Configurations\MachineConfiguration.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="State.cs" />
-    <Compile Include="StateMachine.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
