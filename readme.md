@@ -1,8 +1,14 @@
-#Finite
+# Finite
 
 A simple finite state machine written in C#
 
-##Usage
+## Installation
+
+```bash
+PM> Install-Package Finite
+```
+
+## Usage
 
 Declare a state arg object which is used to control available state transitions:
 
@@ -123,7 +129,7 @@ This StateProvider also supports custom state creation, by means of a lambda:
 var stateProvider = new ScanningStateProvider<LightSwitches>(state => (State<LightSwitches>)_container.GetInstance(state));
 ```
 
-To create your own StateProvider, you just need to implement `IStateProvider<TSwitches>`.  The source for both the `ManualStateProvider` and `ScanningStateProvider` are [viewable here][1].
+To create your own StateProvider, you just need to implement `IStateProvider<TSwitches>`.  The source for both the `ManualStateProvider` and `ScanningStateProvider` are [viewable here][https://github.com/Pondidum/Finite/tree/master/Finite/StateProviders].
 
 ## State Transition Notifications
 
@@ -141,6 +147,3 @@ When `machine.ResetTo<TState>()` is called, only the `Configuration.OnReset()` m
 You can do anything in the handlers you want, but in general the handlers on the individual states are used to trigger behaviour in your application, such as toggling display elements, and the handlers on the configuration are used for logging, auditing, etc of all state changes.
 
 Each handler is passed a `StateChangeEventArgs` object, which contains properties for the switches, previous state and current state.
-
-
-[1]: https://github.com/Pondidum/Finite/tree/master/Finite/StateProviders

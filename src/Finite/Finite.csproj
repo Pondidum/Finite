@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Finite</PackageId>
     <PackageTags>statemachine;fsm;graph;finite state machine</PackageTags>
-    <PackageVersion>4.1.0</PackageVersion>
+    <PackageVersion>4.2.0</PackageVersion>
     <Title>Finite</Title>
     <Description>A simple Finite State Machine library.</Description>
     <Authors>Andy Dote</Authors>
